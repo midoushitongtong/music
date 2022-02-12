@@ -1,0 +1,48 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 45px;
+  text-align: center;
+  color: $color-theme;
+  .content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      display: inline-block;
+      vertical-align: top;
+      width: 30px;
+      height: 32px;
+      margin-right: 9px;
+      background-size: 30px 32px;
+      @include bg-image('../../assets/images/logo-1.png');
+    }
+    .text {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 45px;
+      font-size: $font-size-large;
+    }
+  }
+
+  .mine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    .icon-mine {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      font-size: $font-size-large-x;
+      color: $color-theme;
+    }
+  }
+}
