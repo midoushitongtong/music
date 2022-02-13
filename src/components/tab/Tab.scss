@@ -1,0 +1,30 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.tab-container {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  line-height: 45px;
+  font-size: $font-size-medium;
+
+  .tab-list-item {
+    flex: 1;
+    padding: 0 0.5rem;
+    text-align: center;
+    @include no-wrap();
+
+    &.active {
+      .tab-name {
+        color: $color-theme;
+        border-bottom-color: $color-theme;
+      }
+    }
+
+    .tab-name {
+      padding-bottom: 5px;
+      color: $color-text-l;
+      border-bottom: 2px solid transparent;
+    }
+  }
+}

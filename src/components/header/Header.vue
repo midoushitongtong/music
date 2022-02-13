@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <header class="header-container">
     <!-- content -->
     <div class="content">
       <span class="icon"></span>
@@ -14,7 +14,7 @@
     >
       <i class="icon-mine"></i>
     </RouterLink>
-  </div>
+  </header>
 </template>
 
 <script>
