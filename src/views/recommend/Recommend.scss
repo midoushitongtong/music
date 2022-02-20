@@ -1,0 +1,5 @@
+.scroll-container {
+  // 100vh - 头部高度 - tab 高度
+  height: calc(100vh - 45px - 45px);
+  overflow: hidden;
+}

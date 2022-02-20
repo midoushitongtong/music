@@ -2,13 +2,17 @@
   <!-- tab -->
   <Tab />
 
-  <div class="container">
-    <template v-if="!initDataLoading">
-      <!-- banner -->
-      <RecommendBanner v-if="!initDataLoading" :recommend="recommend" />
-    </template>
-    <!-- loading -->
-    <Loading v-else />
+  <div class="scroll-container" ref="scrollContainerRef">
+    <div class="scroll-content">
+      <template v-if="!initDataLoading">
+        <!-- banner -->
+        <RecommendBanner :recommend="recommend" />
+        <!-- list -->
+        <RecommendList :recommend="recommend" />
+      </template>
+      <!-- loading -->
+      <Loading v-else />
+    </div>
   </div>
 </template>
 
@@ -18,16 +22,21 @@ import Tab from '@/components/tab/Tab.vue';
 import { getRecommend } from '@/apis/recommend';
 import { Recommend } from '@/apis/recommend/types';
 import RecommendBanner from './RecommendBanner.vue';
+import RecommendList from './RecommendList.vue';
 import Loading from '@/components/loading/Loading.vue';
+import useScroll from '@/hooks/useScroll';
 
 export default defineComponent({
   name: 'Recommend',
   components: {
     Tab,
     RecommendBanner,
+    RecommendList,
     Loading,
   },
   setup() {
+    const scrollContainerRef = ref();
+    useScroll(scrollContainerRef);
     const initDataLoading = ref(true);
     const recommend = ref<Recommend | null>(null);
 
@@ -51,6 +60,7 @@ export default defineComponent({
     return {
       initDataLoading,
       recommend,
+      scrollContainerRef,
     };
   },
 });

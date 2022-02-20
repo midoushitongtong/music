@@ -57,49 +57,57 @@ export const getRecommend = () => {
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M000004TXRQz217w8n.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M000004TXRQz217w8n.jpg?max_age=2592000',
               title: '수영(Swimming)',
               username: '수퍼수',
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M0000038kdZJ42nhgc.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M0000038kdZJ42nhgc.jpg?max_age=2592000',
               title: 'From Art to Love',
               username: '오스틴',
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M000000gfYxH2YJUH9.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M000000gfYxH2YJUH9.jpg?max_age=2592000',
               title: 'Самый близкий',
               username: 'Makvin',
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M000002x2M2o3vE0C7.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M000002x2M2o3vE0C7.jpg?max_age=2592000',
               title: 'Hotel De Wereld',
               username: 'Lavinia Meijer',
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M0000022icMw2vMV87.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M0000022icMw2vMV87.jpg?max_age=2592000',
               title: '我们尽力了',
               username: '张宇',
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M000002r73X114dr80.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M000002r73X114dr80.jpg?max_age=2592000',
               title: '踏破铁鞋',
               username: '施勤',
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M000000iLsDE0vtMD6.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M000000iLsDE0vtMD6.jpg?max_age=2592000',
               title: '醉春风',
               username: '王慧',
             },
             {
               id: '1',
-              image: 'y.qq.com/music/photo_new/T002R300x300M000002lVygj3XOFQ8.jpg?max_age=2592000',
+              image:
+                '//y.qq.com/music/photo_new/T002R300x300M000002lVygj3XOFQ8.jpg?max_age=2592000',
               title: 'π',
               username: '音融三喜',
             },
