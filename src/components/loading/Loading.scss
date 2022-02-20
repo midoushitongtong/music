@@ -1,9 +1,16 @@
 @import '@/assets/scss/variable';
-@import '@/assets/scss/mixin';
 
 .loading-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  .loading-content {
+    text-align: center;
+    .title {
+      margin-top: 0.5rem;
+      font-size: $font-size-small;
+      color: $color-text-l;
+    }
+  }
 }

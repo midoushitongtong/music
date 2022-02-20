@@ -2,7 +2,14 @@
   <!-- tab -->
   <Tab />
 
-  <div class="scroll-container" ref="scrollContainerRef">
+  <div
+    class="scroll-container"
+    ref="scrollContainerRef"
+    v-loading="{
+      loading: initDataLoading,
+      title: '正在载入 ...',
+    }"
+  >
     <div class="scroll-content">
       <template v-if="!initDataLoading">
         <!-- banner -->
@@ -10,8 +17,6 @@
         <!-- list -->
         <RecommendList :recommend="recommend" />
       </template>
-      <!-- loading -->
-      <Loading v-else />
     </div>
   </div>
 </template>
@@ -23,7 +28,6 @@ import { getRecommend } from '@/apis/recommend';
 import { Recommend } from '@/apis/recommend/types';
 import RecommendBanner from './RecommendBanner.vue';
 import RecommendList from './RecommendList.vue';
-import Loading from '@/components/loading/Loading.vue';
 import useScroll from '@/hooks/useScroll';
 
 export default defineComponent({
@@ -32,7 +36,6 @@ export default defineComponent({
     Tab,
     RecommendBanner,
     RecommendList,
-    Loading,
   },
   setup() {
     const scrollContainerRef = ref();

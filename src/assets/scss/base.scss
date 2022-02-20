@@ -3,7 +3,7 @@
 body,
 html {
   font-size: 14px;
-  line-height: 1;
+  line-height: 1.355;
   font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif,
     'Droid Sans Fallback';
   user-select: none;
@@ -44,4 +44,8 @@ html {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.global-relative {
+  position: relative;
 }
