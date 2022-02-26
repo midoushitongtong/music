@@ -39,9 +39,9 @@ export default defineComponent({
   },
   setup() {
     const scrollContainerRef = ref();
-    useScroll(scrollContainerRef);
     const initDataLoading = ref(true);
     const recommend = ref<Recommend | null>(null);
+    useScroll(scrollContainerRef);
 
     // 初始化数据
     const initData = async () => {

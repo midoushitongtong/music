@@ -1,30 +1,37 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    v-lazy-container="{
+      selector: 'img',
+      error: require('@/assets/images/loading.gif'),
+      loading: require('@/assets/images/loading.gif'),
+    }"
+  >
     <!-- title -->
     <h1 class="content-title">热门歌单推荐</h1>
 
     <!-- list -->
-    <div
-      v-for="item in recommend.albums"
-      :key="item.id"
-      class="list-item"
-      @click="handleClickItem(item)"
-      v-lazy-container="{
-        selector: 'img',
-        error: require('@/assets/images/loading.gif'),
-        loading: require('@/assets/images/loading.gif'),
-      }"
-    >
-      <div class="image">
-        <img :data-src="item.image" />
-      </div>
-      <div class="right">
-        <h2 class="username">
-          {{ item.username }}
-        </h2>
-        <p class="title">
-          {{ item.title }}
-        </p>
+    <div class="list">
+      <div
+        v-for="item in recommend.albums"
+        :key="item.id"
+        class="list-item"
+        @click="handleClickItem(item)"
+      >
+        <!-- image -->
+        <div class="image">
+          <img :data-src="item.image" />
+        </div>
+        <div class="right">
+          <!-- username -->
+          <h2 class="username">
+            {{ item.username }}
+          </h2>
+          <!-- title -->
+          <p class="title">
+            {{ item.title }}
+          </p>
+        </div>
       </div>
     </div>
   </div>

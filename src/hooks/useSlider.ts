@@ -1,16 +1,19 @@
-import BScroll from '@better-scroll/core';
+import BScroll, { Options } from '@better-scroll/core';
 import Slide from '@better-scroll/slide';
 
 import { onMounted, onUnmounted, onActivated, onDeactivated, ref } from 'vue';
 
 BScroll.use(Slide);
 
-const useSlider = (scrollContainerRef: any) => {
+type Props = {
+  otherBScrollOption?: Options;
+};
+
+const useSlider = (scrollContainerRef: any, props?: Props) => {
   const sliderInstance = ref();
   const currentPageIndex = ref(0);
 
   onMounted(() => {
-    // @ts-ignore
     sliderInstance.value = new BScroll(scrollContainerRef.value, {
       scrollX: true,
       scrollY: false,
@@ -21,7 +24,9 @@ const useSlider = (scrollContainerRef: any) => {
       probeType: 3,
       interval: 5000,
       click: true,
+      // @ts-ignore
       tap: true,
+      ...props?.otherBScrollOption,
     });
 
     sliderInstance.value.on('slidePageChanged', (page: any) => {

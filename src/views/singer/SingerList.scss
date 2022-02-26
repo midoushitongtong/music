@@ -1,0 +1,53 @@
+@import '@/assets/scss/variable';
+
+.container {
+  // singer group list
+  .singer-group-list {
+    .singer-group-list-item {
+      .group-title {
+        // 写死 useFixed 需要计算偏移量
+        height: 30px;
+        line-height: 30px;
+        padding: 0 1rem;
+        font-size: $font-size-small;
+        color: $color-text-l;
+        background: $color-highlight-background;
+        // 文本超出时显示 ...
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      // singer list
+      .singer-list {
+        padding: 1rem 0;
+        .singer-list-item {
+          display: flex;
+          align-items: center;
+          padding: 0 1rem;
+          margin-bottom: 1rem;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          .singer-image {
+            flex: none;
+            width: 60px;
+            height: 60px;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
+            }
+          }
+          .singer-name {
+            flex: 1;
+            padding-left: 1rem;
+            color: $color-text-l;
+            font-size: $font-size-medium;
+          }
+        }
+      }
+    }
+  }
+}

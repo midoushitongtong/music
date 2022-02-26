@@ -1,0 +1,26 @@
+@import '@/assets/scss/variable';
+
+.scroll-container {
+  position: fixed;
+  // 头部高度 + tab 高度
+  top: calc(45px + 45px);
+  left: 0;
+  width: 100%;
+  // 100vh - 头部高度 - tab 高度
+  height: calc(100vh - 45px - 45px);
+  overflow: hidden;
+
+  // singer fixed title
+  .singer-fixed-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    .title {
+      padding: 0.5rem 1rem;
+      font-size: $font-size-small;
+      color: $color-text-l;
+      background: $color-highlight-background;
+    }
+  }
+}
