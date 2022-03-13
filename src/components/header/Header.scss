@@ -8,6 +8,10 @@
   height: 45px;
   text-align: center;
   color: $color-theme;
+  box-shadow: 0 1px 1px #7e8c8d;
+  background: #222;
+  z-index: 999;
+
   .content {
     flex: 1;
     display: flex;
@@ -20,7 +24,7 @@
       height: 32px;
       margin-right: 0.75rem;
       background-size: 30px 32px;
-      @include bg-image('../../assets/images/logo-1.png');
+      @include backgrounImage('../../assets/images/logo-1.png');
     }
     .text {
       display: inline-block;

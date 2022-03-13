@@ -1,4 +1,4 @@
-export type Recommend = {
+export type RecommendDetail = {
   sliders: {
     id: string;
     image: string;

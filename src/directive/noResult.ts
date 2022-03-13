@@ -1,12 +1,12 @@
 import { App, createApp, DirectiveBinding } from 'vue';
-import Loading from '@/components/loading/Loading.vue';
+import NoResult from '@/components/no-result/NoResult.vue';
 import { addClass, removeClass } from '@/utils/document';
 
-const loadingDirective = {
+const noResultDirective = {
   install: (app: App<Element>) => {
-    app.directive('loading', {
+    app.directive('noResult', {
       mounted(el, binding) {
-        const app = createApp(Loading);
+        const app = createApp(NoResult);
 
         const componentInstance = app.mount(document.createElement('div')) as any;
 
@@ -23,10 +23,10 @@ const loadingDirective = {
 
 // 获取 el 的数据
 const getElData = (el: any) => {
-  if (!el[Loading.name]) {
-    el[Loading.name] = {};
+  if (!el[NoResult.name]) {
+    el[NoResult.name] = {};
   }
-  return el[Loading.name];
+  return el[NoResult.name];
 };
 
 // 更新 state
@@ -35,8 +35,8 @@ const updateState = (el: any, binding: DirectiveBinding<any>) => {
   getElData(el).componentInstance.setTitle(binding.value?.title);
 
   // 更新 dom
-  if (binding.value?.loading !== binding.oldValue?.loading) {
-    if (binding.value?.loading) {
+  if (binding.value?.noResult !== binding.oldValue?.noResult) {
+    if (binding.value?.noResult) {
       append(el);
     } else {
       remove(el);
@@ -63,4 +63,4 @@ const remove = (el: any) => {
   removeClass(el, 'global-relative');
 };
 
-export default loadingDirective;
+export default noResultDirective;

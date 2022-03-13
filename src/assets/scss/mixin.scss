@@ -1,17 +1,17 @@
 // 背景图片
-@mixin bg-image($url) {
+@mixin backgrounImage($url) {
   background-image: url($url);
 }
 
 // 禁止折行
-@mixin no-wrap() {
+@mixin noWrap() {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
 // 扩展小图标按钮的点击区域
-@mixin extend-click() {
+@mixin extendClick() {
   position: relative;
   &:before {
     content: '';

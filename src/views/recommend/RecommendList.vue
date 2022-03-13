@@ -13,7 +13,7 @@
     <!-- list -->
     <div class="list">
       <div
-        v-for="item in recommend.albums"
+        v-for="item in recommendDetail.albums"
         :key="item.id"
         class="list-item"
         @click="handleClickItem(item)"
@@ -38,20 +38,20 @@
 </template>
 
 <script lang="ts">
-import { Recommend } from '@/apis/recommend/types';
+import { RecommendDetail } from '@/apis/recommend/types';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'RecommendList',
   components: {},
   props: {
-    recommend: {
-      type: Object as PropType<Recommend>,
+    recommendDetail: {
+      type: Object as PropType<RecommendDetail>,
       required: true,
     },
   },
   setup() {
-    const handleClickItem = (item: Recommend['albums'][0]) => {
+    const handleClickItem = (item: RecommendDetail['albums'][0]) => {
       console.log(item);
     };
 

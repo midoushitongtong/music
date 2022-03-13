@@ -22,22 +22,25 @@ const useScroll = (scrollContainerRef: any, props?: Props) => {
       observeDOM: true, // 开启 observe-dom 插件,
       probeType: 3,
       ...props?.otherBScrollOption,
+      preventDefaultException: {
+        className: /(^|\s)can-touch(\s|$)/,
+      },
     });
   });
 
   onUnmounted(() => {
-    scrollInstance.value.destroy();
+    scrollInstance.value?.destroy();
   });
 
   // 搭配 keep-alive 使用
   onActivated(() => {
-    scrollInstance.value.enable();
-    scrollInstance.value.refresh();
+    scrollInstance.value?.enable();
+    scrollInstance.value?.refresh();
   });
 
   // 搭配 keep-alive 使用
   onDeactivated(() => {
-    scrollInstance.value.disable();
+    scrollInstance.value?.disable();
   });
 
   return {

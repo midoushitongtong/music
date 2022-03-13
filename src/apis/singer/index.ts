@@ -1,9 +1,9 @@
-import { Singer } from './types';
+import { SingerDetail, SingerGroupByTitleListItem } from './types';
 
 // 歌手数据
 export const getSinger = () => {
   return new Promise<{
-    result: Singer;
+    result: SingerGroupByTitleListItem[];
   }>((resolve) => {
     setTimeout(() => {
       resolve({
@@ -342,6 +342,48 @@ export const getSinger = () => {
             ],
           },
         ],
+      });
+    }, 500);
+  });
+};
+
+// 歌手详情
+export const getSingerDetail = (params: { id: string }) => {
+  return new Promise<{
+    result: SingerDetail;
+  }>((resolve) => {
+    setTimeout(() => {
+      resolve({
+        result: {
+          id: '1',
+          name: '周杰伦',
+          image: 'https://y.qq.com/music/photo_new/T001R800x800M0000025NhlN2yWrP4_1.jpg',
+          songList: [
+            { id: '1', title: '晴天', album: '叶惠美' },
+            { id: '2', title: '花海', album: '魔杰座' },
+            { id: '3', title: '反方向的钟', album: 'Jay' },
+            { id: '4', title: '七里香', album: '七里香' },
+            { id: '5', title: '夜曲', album: '十一月的萧邦' },
+            { id: '6', title: '稻香', album: '魔杰座' },
+            { id: '7', title: '一路向北', album: 'J III MP3 Player' },
+            { id: '8', title: '明明就', album: '十二新作' },
+            { id: '9', title: '青花瓷', album: '我很忙' },
+            { id: '10', title: '兰亭序', album: '魔杰座' },
+            { id: '11', title: '半岛铁盒', album: '八度空间' },
+            { id: '12', title: '搁浅', album: '七里香' },
+            { id: '13', title: '烟花易冷', album: '跨时代' },
+            { id: '14', title: '暗号', album: '八度空间' },
+            { id: '15', title: '本草纲目', album: '依然范特西' },
+            { id: '16', title: '手写的从前', album: '哎哟，不错哦' },
+            { id: '17', title: '蒲公英的约定', album: '我很忙' },
+            { id: '18', title: '给我一首歌的时间', album: '摩羯座' },
+            { id: '19', title: '发如雪', album: '十一月的萧邦' },
+            { id: '20', title: '说了再见', album: '跨时代' },
+            { id: '21', title: '告白气球', album: '周杰伦的床边故事' },
+            { id: '22', title: '简单爱', album: '范特西' },
+            { id: '23', title: '珊瑚海', album: '十一月的萧邦' },
+          ],
+        },
       });
     }, 500);
   });

@@ -28,6 +28,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/singer',
     name: 'Singer',
     component: () => import(/* webpackChunkName: "singer" */ '../views/singer/Singer.vue'),
+    children: [
+      {
+        path: '/singer/:id',
+        name: 'SingerDetail',
+        component: () =>
+          import(/* webpackChunkName: "singer-detail" */ '../views/singer-detail/SingerDetail.vue'),
+      },
+    ],
   },
   {
     path: '/top-list',

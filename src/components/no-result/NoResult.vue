@@ -1,8 +1,8 @@
 <template>
-  <div class="loading-container">
-    <div class="loading-content">
-      <img width="25" height="25" src="@/assets/images/loading.gif" />
-      <p v-if="title" class="title">{{ title }}</p>
+  <div class="no-result-container">
+    <div class="no-result-content">
+      <div class="icon"></div>
+      <p class="text">{{ title }}</p>
     </div>
   </div>
 </template>
@@ -11,11 +11,11 @@
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
-  name: 'Loading',
+  name: 'NoResult',
   setup() {
     const title = ref<string | undefined>();
 
-    const setTitle = (_title?: string) => {
+    const setTitle = (_title: string) => {
       title.value = _title;
     };
 
@@ -28,5 +28,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import './Loading';
+@import './NoResult';
 </style>

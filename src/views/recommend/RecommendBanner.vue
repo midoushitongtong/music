@@ -4,7 +4,7 @@
     <div class="slider-container" ref="sliderContainerRef">
       <div class="slider-list">
         <div
-          v-for="item in recommend.sliders"
+          v-for="item in recommendDetail.sliders"
           class="slider-list-item"
           :key="item.id"
           @click="handleSliderItemClick(item)"
@@ -17,7 +17,7 @@
     <div class="slider-dot-list">
       <span
         class="slider-dot-list-item"
-        v-for="(item, index) in recommend.sliders"
+        v-for="(item, index) in recommendDetail.sliders"
         :key="item"
         :class="[currentPageIndex === index && 'active']"
       />
@@ -27,14 +27,14 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
-import { Recommend } from '@/apis/recommend/types';
+import { RecommendDetail } from '@/apis/recommend/types';
 import useSlider from '@/hooks/useSlider';
 
 export default defineComponent({
   name: 'RecommendBanner',
   props: {
-    recommend: {
-      type: Object as PropType<Recommend>,
+    recommendDetail: {
+      type: Object as PropType<RecommendDetail>,
       required: true,
     },
   },

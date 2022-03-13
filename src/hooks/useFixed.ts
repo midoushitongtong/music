@@ -38,7 +38,7 @@ const useFixed = (props: Props) => {
 
     const children = groupListElement.children;
     [...children].forEach((item) => {
-      height += item.scrollHeight;
+      height += item.clientHeight;
       newGroupListItemHeights.push(height);
     });
 

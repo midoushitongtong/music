@@ -11,11 +11,11 @@
     }"
   >
     <div class="scroll-content">
-      <template v-if="!initDataLoading">
+      <template v-if="!initDataLoading && recommendDetail">
         <!-- banner -->
-        <RecommendBanner :recommend="recommend" />
+        <RecommendBanner :recommendDetail="recommendDetail" />
         <!-- list -->
-        <RecommendList :recommend="recommend" />
+        <RecommendList :recommendDetail="recommendDetail" />
       </template>
     </div>
   </div>
@@ -24,8 +24,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import Tab from '@/components/tab/Tab.vue';
-import { getRecommend } from '@/apis/recommend';
-import { Recommend } from '@/apis/recommend/types';
+import { getRecommendDetail } from '@/apis/recommend';
+import { RecommendDetail } from '@/apis/recommend/types';
 import RecommendBanner from './RecommendBanner.vue';
 import RecommendList from './RecommendList.vue';
 import useScroll from '@/hooks/useScroll';
@@ -40,15 +40,15 @@ export default defineComponent({
   setup() {
     const scrollContainerRef = ref();
     const initDataLoading = ref(true);
-    const recommend = ref<Recommend | null>(null);
+    const recommendDetail = ref<RecommendDetail | null>(null);
     useScroll(scrollContainerRef);
 
     // 初始化数据
     const initData = async () => {
       try {
         initDataLoading.value = true;
-        const result = await getRecommend();
-        recommend.value = result.result;
+        const result = await getRecommendDetail();
+        recommendDetail.value = result.result;
         initDataLoading.value = false;
       } catch (error) {
         console.log('获取 api 数据失败');
@@ -62,7 +62,7 @@ export default defineComponent({
 
     return {
       initDataLoading,
-      recommend,
+      recommendDetail,
       scrollContainerRef,
     };
   },

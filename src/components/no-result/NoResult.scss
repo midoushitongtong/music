@@ -1,0 +1,25 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.no-result-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  .no-result-content {
+    text-align: center;
+    .icon {
+      width: 65px;
+      height: 68.023255814px;
+      margin: 0 auto;
+      @include backgrounImage('../../assets/images/no-result.png');
+      background-image: '@/assets/';
+      background-size: 65px 68.023255814px;
+    }
+    .text {
+      margin-top: 1.5rem;
+      font-size: $font-size-medium;
+      color: $color-text-d;
+    }
+  }
+}

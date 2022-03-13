@@ -13,6 +13,11 @@ const useSlider = (scrollContainerRef: any, props?: Props) => {
   const sliderInstance = ref();
   const currentPageIndex = ref(0);
 
+  // handle slide page changed
+  const handleSlidePageChanged = (page: any) => {
+    currentPageIndex.value = page.pageX;
+  };
+
   onMounted(() => {
     sliderInstance.value = new BScroll(scrollContainerRef.value, {
       scrollX: true,
@@ -29,13 +34,12 @@ const useSlider = (scrollContainerRef: any, props?: Props) => {
       ...props?.otherBScrollOption,
     });
 
-    sliderInstance.value.on('slidePageChanged', (page: any) => {
-      currentPageIndex.value = page.pageX;
-    });
+    sliderInstance.value.on('slidePageChanged', handleSlidePageChanged);
   });
 
   onUnmounted(() => {
     sliderInstance.value.destroy();
+    sliderInstance.value.off('slidePageChanged', handleSlidePageChanged);
   });
 
   // 搭配 keep-alive 使用

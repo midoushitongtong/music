@@ -9,7 +9,7 @@
   >
     <!-- singer group list -->
     <div class="singer-group-list">
-      <div v-for="item in singer" :key="item.title" class="singer-group-list-item">
+      <div v-for="item in singerGroupByTitleList" :key="item.title" class="singer-group-list-item">
         <!-- group title -->
         <h2 class="group-title">{{ item.title }}</h2>
         <!-- singer list -->
@@ -18,7 +18,7 @@
             v-for="item2 in item.singerList"
             :key="item2.id"
             class="singer-list-item"
-            @click="handleClickItem(item)"
+            @click="handleClickItem(item2)"
           >
             <!-- singer image -->
             <div class="singer-image">
@@ -34,21 +34,29 @@
 </template>
 
 <script lang="ts">
-import { Singer } from '@/apis/singer/types';
+import { SingerGroupByTitleListItem } from '@/apis/singer/types';
 import { defineComponent, PropType } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'SingerList',
   components: {},
   props: {
-    singer: {
-      type: Object as PropType<Singer>,
+    singerGroupByTitleList: {
+      type: Array as PropType<SingerGroupByTitleListItem[]>,
       required: true,
     },
   },
   setup() {
-    const handleClickItem = (item: Singer[0]['singerList'][0]) => {
-      console.log(item);
+    const router = useRouter();
+
+    const handleClickItem = (item: SingerGroupByTitleListItem['singerList'][0]) => {
+      router.push({
+        name: 'SingerDetail',
+        params: {
+          id: item.id,
+        },
+      });
     };
 
     return {
