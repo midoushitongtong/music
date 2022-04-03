@@ -38,14 +38,14 @@ const useShortcut = (props: Props) => {
     touch.y2 = e.touches[0].pageY;
 
     // 写长一点, 清晰
-    let delta = (touch.y2 - touch.y1) / ANCHOR_HEIGHT;
-    if (delta > 0) {
-      delta = Math.floor(delta);
+    let distance = (touch.y2 - touch.y1) / ANCHOR_HEIGHT;
+    if (distance > 0) {
+      distance = Math.floor(distance);
     } else {
-      delta = Math.ceil(delta);
+      distance = Math.ceil(distance);
     }
 
-    const anchorIndex = touch.anchorIndex + delta;
+    const anchorIndex = touch.anchorIndex + distance;
 
     scrollTo(anchorIndex);
   };

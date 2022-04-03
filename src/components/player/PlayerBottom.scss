@@ -1,0 +1,39 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+// bottom
+.player-bottom-container {
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
+  .operator-list {
+    display: flex;
+    align-items: center;
+    .operator-list-item {
+      flex: 1;
+      color: $color-theme;
+      &.left {
+        text-align: right;
+      }
+      &.center {
+        padding: 0 1.75rem;
+        text-align: center;
+        i {
+          font-size: 3rem;
+        }
+      }
+      &.right {
+        text-align: left;
+      }
+      &.disable {
+        color: $color-theme-d;
+      }
+      .icon-favorite {
+        color: $color-sub-theme;
+      }
+      i {
+        font-size: 2.15rem;
+      }
+    }
+  }
+}

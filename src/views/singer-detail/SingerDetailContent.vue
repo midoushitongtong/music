@@ -184,7 +184,7 @@ export default defineComponent({
     const handleSongClick = (item: SongListItem) => {
       musicStore.selectPlay({
         songList: props.singerDetail.songList,
-        currentPlayId: item.id,
+        currentPlayIndex: props.singerDetail.songList.findIndex((item2) => item2.id === item.id),
       });
     };
 

@@ -1,0 +1,58 @@
+@import '@/assets/scss/variable';
+
+.player-progress-container {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0px auto;
+  padding: 1rem 0;
+
+  .time {
+    flex: none;
+    color: $color-text;
+    font-size: $font-size-small;
+    width: 40px;
+    line-height: 30px;
+    &.time-l {
+      text-align: left;
+    }
+    &.time-r {
+      text-align: right;
+    }
+  }
+
+  .progress-bar-container {
+    flex: 1;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    .progress-bar {
+      position: relative;
+      height: 4px;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      .progress-inner {
+        position: absolute;
+        height: 100%;
+        background-color: $color-theme;
+      }
+      .progress-button-container {
+        position: absolute;
+        left: -8px;
+        top: -13px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .progress-button {
+          width: 16px;
+          height: 16px;
+          border: 3px solid $color-text;
+          border-radius: 50%;
+          background: $color-theme;
+        }
+      }
+    }
+  }
+}
