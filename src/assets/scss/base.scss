@@ -1,5 +1,9 @@
 @import './variable';
 
+* {
+  word-break: break-word;
+}
+
 body,
 html {
   font-size: 14px;

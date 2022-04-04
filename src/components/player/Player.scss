@@ -65,5 +65,14 @@
         color: $color-text;
       }
     }
+
+    // middle
+    .middle {
+      position: fixed;
+      width: 100%;
+      top: 100px;
+      bottom: 165px;
+      white-space: nowrap;
+    }
   }
 }

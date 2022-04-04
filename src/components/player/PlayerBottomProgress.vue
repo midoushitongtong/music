@@ -29,20 +29,21 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from 'vue';
+import { computed, defineComponent, inject, Ref, ref, watch } from 'vue';
 import useAudio from '@/hooks/useAudio';
 import { useMusicStore } from '@/store/music';
 import { formatTime } from '@/utils/time';
 
 export default defineComponent({
   name: 'PlayerBottomProgress',
-  props: {
-    audioSelector: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+  setup() {
+    // audioSelector
+    const audioSelector = inject('audioSelector') as string;
+    // 当前歌曲播放时间
+    const currentTime = inject('currentTime') as Ref<number>;
+    // 当前是否在拖拽进度条
+    const progressUpdating = inject('progressUpdating') as Ref<boolean>;
+
     // progress button width
     const progressButtonWidth = 16;
     // touch
@@ -53,16 +54,12 @@ export default defineComponent({
     const progressInnerRef = ref<HTMLDivElement | null>(null);
     const progressBarContianerRef = ref<HTMLDivElement | null>(null);
     const audio = useAudio({
-      audioSelector: props.audioSelector,
+      audioSelector,
     });
     const musicStore = useMusicStore();
     const currentSong = computed(() => musicStore.currentSong);
-    // 当前歌曲播放时间
-    const currentTime = ref(0);
     // 进度
     const offset = ref(0);
-    // 当前是否在拖拽进度条
-    const progressUpdating = ref(false);
 
     // progress
     const progress = computed(() => {
@@ -82,16 +79,6 @@ export default defineComponent({
         transform: `translate3d(${offset.value}px, 0, 0)`,
       };
     });
-
-    // handle time update
-    const handleTimeUpdate = (e: Event) => {
-      if (progressUpdating.value) {
-        return;
-      }
-
-      // @ts-ignore
-      currentTime.value = e.target.currentTime;
-    };
 
     // handle touch start
     const handleTouchStart = (e: TouchEvent) => {
@@ -171,21 +158,13 @@ export default defineComponent({
       }
     );
 
-    // 监听当前歌曲, 更新歌曲播放实际
+    // 监听当前歌曲, 更新歌曲播放时间
     watch(currentSong, () => {
       if (!currentSong.value) {
         return;
       }
       // 重置歌曲播放时间
       currentTime.value = 0;
-    });
-
-    onMounted(() => {
-      if (!audio.audioRef.value) {
-        return;
-      }
-
-      audio.audioRef.value.ontimeupdate = handleTimeUpdate;
     });
 
     return {

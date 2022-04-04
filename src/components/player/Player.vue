@@ -15,7 +15,10 @@
           <h1 class="subtitle">{{ currentSong.singer.name }}</h1>
         </div>
         <!-- middle -->
-        <PlayerCompactDisk />
+        <div class="middle">
+          <PlayerCompactDisk />
+          <PlayerLyric :audioSelector="audioSelector" />
+        </div>
         <!-- botom -->
         <PlayerBottom :audioSelector="audioSelector" />
       </template>
@@ -27,16 +30,20 @@
 
 <script lang="ts">
 import { useMusicStore } from '@/store/music';
-import { computed, defineComponent, onMounted, watch } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, provide, ref, watch } from 'vue';
 import PlayerBottom from './PlayerBottom.vue';
 import PlayerCompactDisk from './PlayerCompactDisk.vue';
+import PlayerLyric from './PlayerLyric.vue';
 import useAudio from '@/hooks/useAudio';
+// @ts-ignore
+import Lyric from '@/utils/lyric-parser';
 
 export default defineComponent({
   name: 'Player',
   components: {
     PlayerBottom,
     PlayerCompactDisk,
+    PlayerLyric,
   },
   setup() {
     const audioSelector = '#player-audio';
@@ -46,6 +53,21 @@ export default defineComponent({
     const musicStore = useMusicStore();
     const fullScreen = computed(() => musicStore.fullScreen);
     const currentSong = computed(() => musicStore.currentSong);
+    // 当前歌曲播放时间
+    const currentTime = ref(0);
+    // 当前是否在拖拽进度条
+    const progressUpdating = ref(false);
+    // 歌曲的歌词
+    const currentLyric = computed(() => new Lyric(currentSong.value?.lyric || ''));
+    // 歌曲的歌词 (纯音乐)
+    const currentLyricWitPureMusic = computed(() => {
+      const hasLyric = currentLyric.value.lines.length > 1;
+      if (hasLyric) {
+        // 有歌词代表不是纯音乐
+        return undefined;
+      }
+      return currentSong.value?.lyric.replace(/\[(\d{2}):(\d{2}).(\d{2})\]/g, '');
+    });
 
     // go back
     const goBack = () => {
@@ -65,6 +87,23 @@ export default defineComponent({
       console.log('视频播放失败');
       console.log(error);
     };
+
+    // handle time update
+    const handleTimeUpdate = (e: Event) => {
+      if (progressUpdating.value) {
+        return;
+      }
+
+      // @ts-ignore
+      currentTime.value = e.target.currentTime;
+    };
+
+    // provider
+    provide('audioSelector', audioSelector);
+    provide('currentTime', currentTime);
+    provide('progressUpdating', progressUpdating);
+    provide('currentLyric', currentLyric);
+    provide('currentLyricWitPureMusic', currentLyricWitPureMusic);
 
     // 监听切换歌曲, 更新 dom
     watch([currentSong, fullScreen], () => {
@@ -86,14 +125,26 @@ export default defineComponent({
         return;
       }
 
-      audio.audioRef.value.onpause = handlePause;
-      audio.audioRef.value.onerror = handleError;
+      audio.audioRef.value.addEventListener('paste', handlePause);
+      audio.audioRef.value.addEventListener('error', handleError);
+      audio.audioRef.value.addEventListener('timeupdate', handleTimeUpdate);
+    });
+
+    onUnmounted(() => {
+      if (!audio.audioRef.value) {
+        return;
+      }
+
+      audio.audioRef.value.removeEventListener('paste', handlePause);
+      audio.audioRef.value.removeEventListener('error', handleError);
+      audio.audioRef.value.removeEventListener('timeupdate', handleTimeUpdate);
     });
 
     return {
       audioSelector,
       fullScreen,
       currentSong,
+      currentTime,
       goBack,
       handlePause,
       handleError,

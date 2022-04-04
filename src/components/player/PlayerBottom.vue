@@ -1,7 +1,7 @@
 <template>
   <div class="player-bottom-container" v-if="currentSong">
     <!-- progress -->
-    <PlayerProgress :audioSelector="audioSelector" />
+    <PlayerProgress />
 
     <div class="operator-list">
       <div class="operator-list-item left">
@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { PLAYER_FAVORITE_STORAGE_KEY, useMusicStore } from '@/store/music';
-import { computed, defineComponent, onMounted, watch } from 'vue';
+import { computed, defineComponent, inject, onMounted, onUnmounted, watch } from 'vue';
 import { PLAY_MODE } from '@/store/music/types';
 import useAudio from '@/hooks/useAudio';
 import { remove, save } from '@/utils/array-storage';
@@ -36,15 +36,12 @@ export default defineComponent({
   components: {
     PlayerProgress,
   },
-  props: {
-    audioSelector: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+  setup() {
+    // audioSelector
+    const audioSelector = inject('audioSelector') as string;
+
     const audio = useAudio({
-      audioSelector: props.audioSelector,
+      audioSelector,
     });
     const musicStore = useMusicStore();
     const fullScreen = computed(() => musicStore.fullScreen);
@@ -90,9 +87,9 @@ export default defineComponent({
       // 更新歌曲进度
       audio.updateAttr('currentTime', 0);
 
-      if (!playing.value) {
-        musicStore.updatePlying(true);
-      }
+      musicStore.updatePlying(true);
+      // 开始播放 (播放结束会暂停, 重新设置为播放)
+      audio.play();
     };
 
     // play prev
@@ -173,7 +170,15 @@ export default defineComponent({
         return;
       }
 
-      audio.audioRef.value.onended = handleEnded;
+      audio.audioRef.value.addEventListener('ended', handleEnded);
+    });
+
+    onUnmounted(() => {
+      if (!audio.audioRef.value) {
+        return;
+      }
+
+      audio.audioRef.value.removeEventListener('ended', handleEnded);
     });
 
     return {

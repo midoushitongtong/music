@@ -1,43 +1,29 @@
 @import '@/assets/scss/variable';
 
-.middle {
-  position: fixed;
+.lyric-container {
   width: 100%;
-  top: 85px;
-  bottom: 165px;
-  white-space: nowrap;
-  .cd-container {
-    padding: 10%;
-    .cd-inner {
-      position: relative;
-      padding-bottom: 100%;
-      .cd-content {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        .image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-          border-radius: 50%;
-          border: 10px solid rgba(255, 255, 255, 0.1);
-          &.playing {
-            animation: rotate 20s linear infinite;
-
-            @keyframes rotate {
-              0% {
-                transform: rotate(0);
-              }
-
-              100% {
-                transform: rotate(360deg);
-              }
-            }
-          }
-        }
+  height: 100%;
+  overflow: hidden;
+  .lyric-list {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+    .text {
+      line-height: 2.3rem;
+      color: $color-text-l;
+      font-size: $font-size-medium;
+      &.active {
+        color: $color-text;
+        font-weight: 600;
       }
     }
+  }
+  .pure-music-lyric {
+    padding-top: 45%;
+    line-height: 2.3rem;
+    color: $color-text-l;
+    font-size: $font-size-medium;
+    text-align: center;
   }
 }
