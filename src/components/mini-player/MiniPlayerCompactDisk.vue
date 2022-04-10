@@ -1,7 +1,7 @@
 <template>
   <!-- cd -->
   <div class="cd-container">
-    <div class="cd-content" ref="cdContentRef" @click="openFullScreen">
+    <div class="cd-content" ref="cdContentRef">
       <img
         ref="cdImageRef"
         :class="['cd-image', playing && 'playing']"
@@ -25,11 +25,6 @@ export default defineComponent({
     const fullScreen = computed(() => musicStore.fullScreen);
     const { cdContentRef, cdImageRef, syncTransform } = usePlayerCompactDisk();
 
-    // 全屏幕播放
-    const openFullScreen = () => {
-      musicStore.updateFullScreen(true);
-    };
-
     // 监听暂停播放
     watch(playing, (newValue) => {
       if (!newValue && !fullScreen.value) {
@@ -40,7 +35,7 @@ export default defineComponent({
     // 监听打开全屏
     watch(fullScreen, (newValue) => {
       if (newValue) {
-        // 等待动画结束
+        // 等待动画结束 (.mini-player-enter-active)
         setTimeout(() => {
           syncTransform();
         }, 500);
@@ -52,7 +47,6 @@ export default defineComponent({
       cdContentRef,
       cdImageRef,
       currentSong,
-      openFullScreen,
     };
   },
 });

@@ -18,37 +18,17 @@
   }
 
   .middle-container {
-    overflow: hidden;
     flex: 1;
-    .slider-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      flex: 1;
-      line-height: 20px;
-      overflow: hidden;
-      .slider-content {
-        position: relative;
-        overflow: hidden;
-        white-space: nowrap;
-        .slider-list-item {
-          display: inline-block;
-          width: 100%;
-          transform: translate3d(0, 0, 0);
-          backface-visibility: hidden;
-          .title {
-            margin-bottom: 0.25rem;
-            @include noWrap();
-            font-size: $font-size-medium;
-            color: $color-text;
-          }
-          .singer-name {
-            @include noWrap();
-            font-size: $font-size-small;
-            color: $color-text-d;
-          }
-        }
-      }
+    .title {
+      margin-bottom: 0.25rem;
+      @include noWrap();
+      font-size: $font-size-medium;
+      color: $color-text;
+    }
+    .singer-name {
+      @include noWrap();
+      font-size: $font-size-small;
+      color: $color-text-d;
     }
   }
 

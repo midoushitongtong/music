@@ -139,17 +139,17 @@ export default defineComponent({
       handleTouchEnd();
     };
 
-    // handle open lyric
-    const handleOpenLyric = () => {
+    // handle show lyric
+    const handleShowLyric = () => {
       updateCurrentShow('lyric');
     };
 
     onMounted(() => {
-      emitter.on('openLyric', handleOpenLyric);
+      emitter.on('showLyric', handleShowLyric);
     });
 
     onUnmounted(() => {
-      emitter.off('openLyric', handleOpenLyric);
+      emitter.off('showLyric', handleShowLyric);
     });
 
     return {

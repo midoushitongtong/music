@@ -8,7 +8,7 @@
     </div>
     <!-- 播放中的歌词 -->
     <div class="playing-lyric-container">
-      <div class="playing-lyric" @click="openLyric">{{ currentLyricText }}</div>
+      <div class="playing-lyric" @click="showLyric">{{ currentLyricText }}</div>
     </div>
   </div>
 </template>
@@ -48,9 +48,9 @@ export default defineComponent({
       return currentLyric.value.lines[currentLyricLineNumber]?.txt;
     });
 
-    // open lyric
-    const openLyric = () => {
-      emitter.emit('openLyric');
+    // show lyric
+    const showLyric = () => {
+      emitter.emit('showLyric');
     };
 
     // 监听暂停播放
@@ -77,7 +77,7 @@ export default defineComponent({
       cdContentRef,
       cdImageRef,
       currentLyricText,
-      openLyric,
+      showLyric,
     };
   },
 });

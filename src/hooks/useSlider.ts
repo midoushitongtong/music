@@ -7,6 +7,7 @@ BScroll.use(Slide);
 
 type Props = {
   otherBScrollOption?: Options;
+  disableOnMountedInit?: boolean;
 };
 
 const useSlider = (scrollContainerRef: any, props?: Props) => {
@@ -18,23 +19,29 @@ const useSlider = (scrollContainerRef: any, props?: Props) => {
     currentPageIndex.value = page.pageX;
   };
 
-  onMounted(() => {
+  // init BScroll
+  const initBScroll = () => {
     sliderInstance.value = new BScroll(scrollContainerRef.value, {
       scrollX: true,
       scrollY: false,
-      slide: true,
-      loop: true,
       momentum: false,
       bounce: false,
       probeType: 3,
-      interval: 5000,
-      // click: true, 会导致执行两次
-      // @ts-ignore
-      tap: true,
+      slide: {
+        loop: true,
+        interval: 5000,
+      },
+      click: true,
       ...props?.otherBScrollOption,
     });
 
     sliderInstance.value.on('slidePageChanged', handleSlidePageChanged);
+  };
+
+  onMounted(() => {
+    if (!props?.disableOnMountedInit) {
+      initBScroll();
+    }
   });
 
   onUnmounted(() => {
@@ -56,6 +63,7 @@ const useSlider = (scrollContainerRef: any, props?: Props) => {
   return {
     sliderInstance,
     currentPageIndex,
+    initBScroll,
   };
 };
 
