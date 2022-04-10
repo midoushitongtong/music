@@ -1,0 +1,28 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.mini-player-container {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1001; // 比 .normal-player 大
+  width: 100%;
+  height: 60px;
+  background: $color-highlight-background;
+
+  .right-container {
+    .title {
+      margin-bottom: 0.25rem;
+      @include noWrap();
+      font-size: $font-size-medium;
+      color: $color-text;
+    }
+    .singer-name {
+      @include noWrap();
+      font-size: $font-size-small;
+      color: $color-text-d;
+    }
+  }
+}

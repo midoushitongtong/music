@@ -68,7 +68,6 @@ const useMusicStore = defineStore('music', () => {
     // 顺序播放模式
     playMode.value = PLAY_MODE.sequence;
     fullScreen.value = true;
-    playing.value = true;
   };
   const randomSongList = (_songList: typeof songList.value) => {
     songList.value = _songList;
@@ -77,7 +76,6 @@ const useMusicStore = defineStore('music', () => {
     // 随机播放模式
     playMode.value = PLAY_MODE.random;
     fullScreen.value = true;
-    playing.value = true;
   };
   const togglePlayMode = (_playMode: typeof playMode.value) => {
     const currentPlayId = currentSong.value?.id;

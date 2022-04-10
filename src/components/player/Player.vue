@@ -1,5 +1,5 @@
 <template>
-  <div class="player-container">
+  <div class="player-container" v-show="playList.length > 0">
     <div class="normal-player" v-show="fullScreen">
       <template v-if="currentSong">
         <!-- background -->
@@ -15,16 +15,16 @@
           <h1 class="subtitle">{{ currentSong.singer.name }}</h1>
         </div>
         <!-- middle -->
-        <div class="middle">
-          <PlayerCompactDisk />
-          <PlayerLyric :audioSelector="audioSelector" />
-        </div>
+        <PlayerMiddle />
         <!-- botom -->
         <PlayerBottom :audioSelector="audioSelector" />
       </template>
       <!-- audio -->
       <audio :id="audioSelector.slice(1)" />
     </div>
+
+    <!-- mini player -->
+    <MiniPlayer />
   </div>
 </template>
 
@@ -32,18 +32,18 @@
 import { useMusicStore } from '@/store/music';
 import { computed, defineComponent, onMounted, onUnmounted, provide, ref, watch } from 'vue';
 import PlayerBottom from './PlayerBottom.vue';
-import PlayerCompactDisk from './PlayerCompactDisk.vue';
-import PlayerLyric from './PlayerLyric.vue';
+import PlayerMiddle from './PlayerMiddle.vue';
 import useAudio from '@/hooks/useAudio';
 // @ts-ignore
 import Lyric from '@/utils/lyric-parser';
+import MiniPlayer from '../mini-player/MiniPlayer.vue';
 
 export default defineComponent({
   name: 'Player',
   components: {
     PlayerBottom,
-    PlayerCompactDisk,
-    PlayerLyric,
+    PlayerMiddle,
+    MiniPlayer,
   },
   setup() {
     const audioSelector = '#player-audio';
@@ -51,6 +51,8 @@ export default defineComponent({
       audioSelector,
     });
     const musicStore = useMusicStore();
+    const playing = computed(() => musicStore.playing);
+    const playList = computed(() => musicStore.playList);
     const fullScreen = computed(() => musicStore.fullScreen);
     const currentSong = computed(() => musicStore.currentSong);
     // 当前歌曲播放时间
@@ -72,7 +74,6 @@ export default defineComponent({
     // go back
     const goBack = () => {
       musicStore.updateFullScreen(false);
-      musicStore.updatePlying(false);
     };
 
     // handle pause
@@ -106,10 +107,11 @@ export default defineComponent({
     provide('currentLyricWitPureMusic', currentLyricWitPureMusic);
 
     // 监听切换歌曲, 更新 dom
-    watch([currentSong, fullScreen], () => {
-      if (!currentSong.value || !fullScreen.value) {
+    watch(currentSong, () => {
+      if (!currentSong.value) {
         return;
       }
+
       // 更新歌曲地址
       audio.updateAttr('src', currentSong.value.url);
       // 更新歌曲音量
@@ -118,6 +120,10 @@ export default defineComponent({
       audio.updateAttr('currentTime', 0);
       // 开始播放
       audio.play();
+      // 更新 playing 状态
+      if (!playing.value) {
+        musicStore.updatePlying(true);
+      }
     });
 
     onMounted(() => {
@@ -148,6 +154,7 @@ export default defineComponent({
       goBack,
       handlePause,
       handleError,
+      playList,
     };
   },
 });

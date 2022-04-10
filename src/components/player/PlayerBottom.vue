@@ -108,6 +108,7 @@ export default defineComponent({
           newCurrentPlayIndex = playList.value.length - 1;
         }
         musicStore.updateCurrentPlayIndex(newCurrentPlayIndex);
+        // 更新 playing 状态
         if (!playing.value) {
           musicStore.updatePlying(true);
         }
@@ -130,6 +131,7 @@ export default defineComponent({
           newCurrentPlayIndex = 0;
         }
         musicStore.updateCurrentPlayIndex(newCurrentPlayIndex);
+        // 更新 playing 状态
         if (!playing.value) {
           musicStore.updatePlying(true);
         }

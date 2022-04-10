@@ -73,3 +73,23 @@ html {
 .list-leave-to {
   height: 0 !important;
 }
+
+.mini-player-enter-active,
+.mini-player-leave-active {
+  transition: all 0.6s cubic-bezier(0.45, 0, 0.55, 1);
+}
+.mini-player-enter-from,
+.mini-player-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

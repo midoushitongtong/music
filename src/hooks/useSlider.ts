@@ -28,7 +28,7 @@ const useSlider = (scrollContainerRef: any, props?: Props) => {
       bounce: false,
       probeType: 3,
       interval: 5000,
-      click: true,
+      // click: true, 会导致执行两次
       // @ts-ignore
       tap: true,
       ...props?.otherBScrollOption,

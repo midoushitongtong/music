@@ -14,9 +14,9 @@
         <div
           class="progress-button-container"
           :style="progressButtonContainerStyle"
-          @touchstart.prevent="handleTouchStart"
-          @touchmove.prevent="handleTouchMove"
-          @touchend.prevent="handleTouchEnd"
+          @touchstart.stop.prevent="handleTouchStart"
+          @touchmove.stop.prevent="handleTouchMove"
+          @touchend.stop.prevent="handleTouchEnd"
         >
           <div class="progress-button" />
         </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, inject, nextTick, Ref, ref, watch } from 'vue';
 import useAudio from '@/hooks/useAudio';
 import { useMusicStore } from '@/store/music';
 import { formatTime } from '@/utils/time';
@@ -58,6 +58,7 @@ export default defineComponent({
     });
     const musicStore = useMusicStore();
     const currentSong = computed(() => musicStore.currentSong);
+    const fullScreen = computed(() => musicStore.fullScreen);
     // 进度
     const offset = ref(0);
 
@@ -145,16 +146,23 @@ export default defineComponent({
       audio.updateAttr('currentTime', currentSong.value.duration * progress);
     };
 
+    // update offset
+    const updateOffset = (progress: number) => {
+      if (!progressBarContianerRef.value) {
+        return;
+      }
+
+      // 根据 fullScreen 获取 width
+      const progressBarWidth =
+        progressBarContianerRef.value.getBoundingClientRect().width - progressButtonWidth;
+      offset.value = progressBarWidth * progress;
+    };
+
     // 监听 progress, 更新 offset
     watch(
       () => progress.value,
       (newValue) => {
-        if (!progressBarContianerRef.value) {
-          return;
-        }
-        const progressBarWidth =
-          progressBarContianerRef.value.getBoundingClientRect().width - progressButtonWidth;
-        offset.value = progressBarWidth * newValue;
+        updateOffset(newValue);
       }
     );
 
@@ -165,6 +173,16 @@ export default defineComponent({
       }
       // 重置歌曲播放时间
       currentTime.value = 0;
+    });
+
+    // 监听 fullScreen
+    watch(fullScreen, (newValue) => {
+      if (newValue) {
+        // fix: 等待渲染完成才刷新, 不然 getBoundingClientRect 拿不到数据
+        nextTick(() => {
+          updateOffset(progress.value);
+        });
+      }
     });
 
     return {

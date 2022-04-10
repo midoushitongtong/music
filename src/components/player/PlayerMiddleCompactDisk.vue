@@ -8,21 +8,21 @@
     </div>
     <!-- 播放中的歌词 -->
     <div class="playing-lyric-container">
-      <div class="playing-lyric">{{ currentLyricText }}</div>
+      <div class="playing-lyric" @click="openLyric">{{ currentLyricText }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed } from 'vue-demi';
-
-import { defineComponent, inject, Ref, ref, watch } from 'vue';
+import { defineComponent, inject, Ref, computed, watch } from 'vue';
 import { useMusicStore } from '@/store/music';
 // @ts-ignore
 import Lyric from '@/utils/lyric-parser';
+import { emitter } from '@/utils/emitter';
+import usePlayerCompactDisk from '@/hooks/usePlayerCompactDisk';
 
 export default defineComponent({
-  name: 'PlayerCD',
+  name: 'PlayerMiddleCompactDisk',
   setup() {
     // 当前歌曲播放时间
     const currentTime = inject('currentTime') as Ref<number>;
@@ -32,10 +32,10 @@ export default defineComponent({
     const currentLyricWitPureMusic = inject('currentLyricWitPureMusic') as Ref<string | undefined>;
 
     const musicStore = useMusicStore();
+    const { cdContentRef, cdImageRef, syncTransform } = usePlayerCompactDisk();
     const currentSong = computed(() => musicStore.currentSong);
     const playing = computed(() => musicStore.playing);
-    const cdContentRef = ref<HTMLDivElement | null>(null);
-    const cdImageRef = ref<HTMLImageElement | null>(null);
+    const fullScreen = computed(() => musicStore.fullScreen);
     // 根据歌曲播放时间, 获取当前歌词
     const currentLyricText = computed(() => {
       // 获取当前歌词 (纯音乐)
@@ -48,27 +48,26 @@ export default defineComponent({
       return currentLyric.value.lines[currentLyricLineNumber]?.txt;
     });
 
-    // 同步 cdImage 的 transform 到 cdContent
-    const syncTransform = () => {
-      if (!cdContentRef.value || !cdImageRef.value) {
-        return;
-      }
-
-      const cdContentTransform = getComputedStyle(cdContentRef.value).transform;
-      const cdImageTransform = getComputedStyle(cdImageRef.value).transform;
-
-      cdContentRef.value.style.transform =
-        cdContentTransform === 'none'
-          ? // 第一次的同步直接覆盖
-            cdImageTransform
-          : // 第一次之后的同步需要叠加
-            cdContentTransform.concat(cdImageTransform);
+    // open lyric
+    const openLyric = () => {
+      emitter.emit('openLyric');
     };
 
     // 监听暂停播放
     watch(playing, (newValue) => {
-      if (!newValue) {
+      if (!newValue && fullScreen.value) {
         syncTransform();
+      }
+    });
+
+    // 监听取消全屏
+    watch(fullScreen, (newValue) => {
+      if (!newValue) {
+        // 等待动画结束
+        // TODO
+        syncTransform();
+        // setTimeout(() => {
+        // }, 0);
       }
     });
 
@@ -78,11 +77,12 @@ export default defineComponent({
       cdContentRef,
       cdImageRef,
       currentLyricText,
+      openLyric,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import './PlayerCompactDisk.scss';
+@import './PlayerMiddleCompactDisk.scss';
 </style>
