@@ -64,10 +64,9 @@ export default defineComponent({
     watch(fullScreen, (newValue) => {
       if (!newValue) {
         // 等待动画结束
-        // TODO
-        syncTransform();
-        // setTimeout(() => {
-        // }, 0);
+        setTimeout(() => {
+          syncTransform();
+        }, 600);
       }
     });
 

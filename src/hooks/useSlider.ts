@@ -45,19 +45,19 @@ const useSlider = (scrollContainerRef: any, props?: Props) => {
   });
 
   onUnmounted(() => {
-    sliderInstance.value.destroy();
-    sliderInstance.value.off('slidePageChanged', handleSlidePageChanged);
+    sliderInstance.value?.destroy();
+    sliderInstance.value?.off('slidePageChanged', handleSlidePageChanged);
   });
 
   // 搭配 keep-alive 使用
   onActivated(() => {
-    sliderInstance.value.enable();
-    sliderInstance.value.refresh();
+    sliderInstance.value?.enable();
+    sliderInstance.value?.refresh();
   });
 
   // 搭配 keep-alive 使用
   onDeactivated(() => {
-    sliderInstance.value.disable();
+    sliderInstance.value?.disable();
   });
 
   return {

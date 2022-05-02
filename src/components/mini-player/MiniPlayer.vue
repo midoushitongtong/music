@@ -24,13 +24,15 @@
           <MiniPlayerProgress />
         </div>
 
-        <!-- 
-        <div class="control" @click.stop="showPlaylist">
+        <div class="control" @click.stop="showPlayList">
           <i class="icon-playlist"></i>
-        </div> -->
+        </div>
       </div>
     </div>
   </Transition>
+
+  <!-- player list -->
+  <PlayList ref="playListRef" />
 </template>
 
 <script lang="ts">
@@ -39,15 +41,18 @@ import { useMusicStore } from '@/store/music';
 import { computed, defineComponent, nextTick, provide, ref, watch } from 'vue';
 import MiniPlayerCompactDisk from './MiniPlayerCompactDisk.vue';
 import MiniPlayerProgress from './MiniPlayerProgress.vue';
+import PlayList from '@/components/play-list/PlayList.vue';
 
 export default defineComponent({
   name: 'MiniPlayer',
   components: {
     MiniPlayerCompactDisk,
     MiniPlayerProgress,
+    PlayList,
   },
   setup() {
     const audioSelector = '#player-audio';
+    const playListRef = ref();
     const musicStore = useMusicStore();
     const fullScreen = computed(() => musicStore.fullScreen);
     const playing = computed(() => musicStore.playing);
@@ -71,8 +76,22 @@ export default defineComponent({
       musicStore.updateFullScreen(true);
     };
 
+    // open player list
+    const showPlayList = () => {
+      if (!playListRef.value?.visible) {
+        playListRef.value?.showPlayList();
+      } else {
+        playListRef.value?.hidePlayList();
+      }
+    };
+
     // provider
     provide('audioSelector', audioSelector);
+
+    // 监听 currentPageIndex 更新歌曲 index
+    watch(currentPageIndex, (newValue) => {
+      musicStore.updateCurrentPlayIndex(newValue);
+    });
 
     // 监听 sliderShow 初始化 BScroll
     watch(sliderShow, (newValue) => {
@@ -94,19 +113,27 @@ export default defineComponent({
 
     // 监听 currentPlayIndex 滚动到当前歌曲的 index
     watch(currentPlayIndex, (newValue) => {
-      // 已经实例化 BScroll
-      if (sliderInstance.value) {
-        // 滚动到当前歌曲的 index
-        sliderInstance.value?.goToPage(newValue, 0, 500);
-      }
+      nextTick(() => {
+        // 已经实例化 BScroll
+        if (sliderInstance.value) {
+          // 滚动到当前歌曲的 index
+          sliderInstance.value?.goToPage(newValue, 0, 500);
+        }
+      });
     });
 
-    // 监听 currentPageIndex 更新歌曲 index
-    watch(currentPageIndex, (newValue) => {
-      musicStore.updateCurrentPlayIndex(newValue);
+    // 监听 playeList 刷新 BScroll (当移除了某个歌曲就会触发)
+    watch(playList, () => {
+      nextTick(() => {
+        // 已经实例化 BScroll
+        if (sliderInstance.value) {
+          sliderInstance.value.refresh();
+        }
+      });
     });
 
     return {
+      playListRef,
       fullScreen,
       currentSong,
       playing,
@@ -114,6 +141,7 @@ export default defineComponent({
       showNormalPlayer,
       scrollContainerRef,
       sliderShow,
+      showPlayList,
     };
   },
 });

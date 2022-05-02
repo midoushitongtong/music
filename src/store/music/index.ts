@@ -93,6 +93,32 @@ const useMusicStore = defineStore('music', () => {
     currentPlayIndex.value = newCurrentPlayIndex;
     playMode.value = _playMode;
   };
+  const removeSongListItem = (songListItem: SongListItem) => {
+    let songListTemp = songList.value;
+    let playListTemp = playList.value;
+    let currentPlayIndexTemp = currentPlayIndex.value;
+    const songListItemIndex = playListTemp.findIndex((item) => item.id === songListItem.id);
+
+    if (songListItemIndex === -1) {
+      // 找不到这首歌不执行操作, 用户连续点击删除可能会进入到此 if
+      return;
+    }
+
+    // 满足任意条件, 要让 currentPlayIndex 减 1
+    // 1. 如果被删除歌曲 index 排在正在播放歌曲 index 前面
+    // 2. 如果被删除歌曲 index 是最后一首
+    if (songListItemIndex < currentPlayIndexTemp || songListItemIndex === playListTemp.length - 1) {
+      currentPlayIndexTemp--;
+    }
+
+    // 从数组中删除歌曲
+    songListTemp = songListTemp.filter((item) => item.id !== songListItem.id);
+    playListTemp = playListTemp.filter((item) => item.id !== songListItem.id);
+
+    songList.value = songListTemp;
+    playList.value = playListTemp;
+    currentPlayIndex.value = currentPlayIndexTemp;
+  };
 
   return {
     songList,
@@ -113,6 +139,7 @@ const useMusicStore = defineStore('music', () => {
     selectPlay,
     randomSongList,
     togglePlayMode,
+    removeSongListItem,
   };
 });
 

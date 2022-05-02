@@ -70,9 +70,11 @@ export default defineComponent({
         const line = lyricListRef.value.children[currentLyricLineNumberTemp - centerNumber];
         // fix: 当播放下一首歌曲, 第一首歌有100条歌词, 第二首歌只有50条, 第二首歌的歌词比第一首歌少, 假如 line 是空的说明不能根据 index 获取对应的歌词, 不能进行跳转
         if (line) {
+          console.log(`歌词滚动, index: ${centerNumber}`);
           scrollInstance.value.scrollToElement(line, 1000);
         }
       } else {
+        console.log('歌词滚动, index: 0');
         // 小与等于 5 行, 滚动到顶部
         scrollInstance.value.scrollTo(0, 0, 1000);
       }
@@ -88,6 +90,8 @@ export default defineComponent({
       if (newValue) {
         // fix: 等待渲染完成才刷新, 不然 getBoundingClientRect 拿不到数据
         nextTick(() => {
+          // fix: 刷新 BScroll 不刷新无法正常滚动, 因为 DOM 结构已经从 display: none 切换为 display: block
+          scrollInstance.value.refresh();
           updateCurrentLyricLineNumber();
         });
       }

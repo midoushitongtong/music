@@ -1,27 +1,35 @@
 <template>
   <div class="player-container" v-show="playList.length > 0">
-    <div class="normal-player" v-show="fullScreen">
-      <template v-if="currentSong">
-        <!-- background -->
-        <div class="background">
-          <img :src="currentSong.backgroundImage" />
-        </div>
-        <!-- top -->
-        <div class="top">
-          <div class="back" @click="goBack">
-            <i class="icon-back" />
+    <Transition
+      name="normal-player"
+      @enter="enter"
+      @afterEnter="afterEnter"
+      @leave="leave"
+      @afterLeave="afterLeave"
+    >
+      <div class="normal-player" v-show="fullScreen">
+        <template v-if="currentSong">
+          <!-- background -->
+          <div class="background">
+            <img :src="currentSong.backgroundImage" />
           </div>
-          <h1 class="title">{{ currentSong.title }}</h1>
-          <h1 class="subtitle">{{ currentSong.singer.name }}</h1>
-        </div>
-        <!-- middle -->
-        <PlayerMiddle />
-        <!-- botom -->
-        <PlayerBottom :audioSelector="audioSelector" />
-      </template>
-      <!-- audio -->
-      <audio :id="audioSelector.slice(1)" />
-    </div>
+          <!-- top -->
+          <div class="top">
+            <div class="back" @click="goBack">
+              <i class="icon-back" />
+            </div>
+            <h1 class="title">{{ currentSong.title }}</h1>
+            <h1 class="subtitle">{{ currentSong.singer.name }}</h1>
+          </div>
+          <!-- middle -->
+          <PlayerMiddle />
+          <!-- botom -->
+          <PlayerBottom :audioSelector="audioSelector" />
+        </template>
+        <!-- audio -->
+        <audio :id="audioSelector.slice(1)" />
+      </div>
+    </Transition>
 
     <!-- mini player -->
     <MiniPlayer />
@@ -34,6 +42,7 @@ import { computed, defineComponent, onMounted, onUnmounted, provide, ref, watch 
 import PlayerBottom from './PlayerBottom.vue';
 import PlayerMiddle from './PlayerMiddle.vue';
 import useAudio from '@/hooks/useAudio';
+import usePlayerCompactDiskAnimation from '@/hooks/usePlayerCompactDiskAnimation';
 // @ts-ignore
 import Lyric from '@/utils/lyric-parser';
 import MiniPlayer from '../mini-player/MiniPlayer.vue';
@@ -47,10 +56,14 @@ export default defineComponent({
   },
   setup() {
     const audioSelector = '#player-audio';
+    const playerListRef = ref();
     const audio = useAudio({
       audioSelector,
     });
     const musicStore = useMusicStore();
+    const { enter, afterEnter, leave, afterLeave } = usePlayerCompactDiskAnimation({
+      selector: '.cd-inner',
+    });
     const playing = computed(() => musicStore.playing);
     const playList = computed(() => musicStore.playList);
     const fullScreen = computed(() => musicStore.fullScreen);
@@ -155,6 +168,11 @@ export default defineComponent({
       handlePause,
       handleError,
       playList,
+      enter,
+      afterEnter,
+      leave,
+      afterLeave,
+      playerListRef,
     };
   },
 });

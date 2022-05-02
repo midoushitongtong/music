@@ -45,7 +45,7 @@
 
   <!-- router view -->
   <RouterView v-slot="{ Component }">
-    <Transition name="slide">
+    <Transition name="singer-detail">
       <Component :is="Component" />
     </Transition>
   </RouterView>

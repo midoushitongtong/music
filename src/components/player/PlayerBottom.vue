@@ -17,7 +17,7 @@
         <i class="icon-next" @click="playNext" />
       </div>
       <div class="operator-list-item right">
-        <i :class="icon.favorite" @click="toggleFavorite(currentSong.id)" />
+        <i :class="getFavoriteIcon(currentSong)" @click="toggleFavorite(currentSong.id)" />
       </div>
     </div>
   </div>
@@ -30,6 +30,7 @@ import { PLAY_MODE } from '@/store/music/types';
 import useAudio from '@/hooks/useAudio';
 import { remove, save } from '@/utils/array-storage';
 import PlayerProgress from './PlayerBottomProgress.vue';
+import { SongListItem } from '@/apis/song/types';
 
 export default defineComponent({
   name: 'PlayerBottom',
@@ -58,9 +59,6 @@ export default defineComponent({
           : playMode.value === PLAY_MODE.random
           ? 'icon-random'
           : 'icon-loop',
-      favorite: favoriteList.value.find((item) => item === currentSong.value?.id)
-        ? 'icon-favorite'
-        : 'icon-not-favorite',
     }));
     const favoriteList = computed(() => musicStore.favoriteList);
 
@@ -69,10 +67,17 @@ export default defineComponent({
       musicStore.updatePlying(!playing.value);
     };
 
+    // get favorite icon
+    const getFavoriteIcon = (songListItem: SongListItem) => {
+      return favoriteList.value.find((item) => item === songListItem.id)
+        ? 'icon-favorite'
+        : 'icon-not-favorite';
+    };
+
     // toggle favorite
     const toggleFavorite = (id: string) => {
       let newFavoriteList = favoriteList.value;
-      if (favoriteList.value.findIndex((item) => item === currentSong.value?.id) !== -1) {
+      if (favoriteList.value.findIndex((item) => item === id) !== -1) {
         // remove
         newFavoriteList = remove(PLAYER_FAVORITE_STORAGE_KEY, (item: any) => item === id);
       } else {
@@ -86,10 +91,10 @@ export default defineComponent({
     const playLoop = () => {
       // 更新歌曲进度
       audio.updateAttr('currentTime', 0);
-
-      musicStore.updatePlying(true);
-      // 开始播放 (播放结束会暂停, 重新设置为播放)
-      audio.play();
+      // 更新 playing 状态
+      if (!playing.value) {
+        musicStore.updatePlying(true);
+      }
     };
 
     // play prev
@@ -193,6 +198,7 @@ export default defineComponent({
       playNext,
       togglePlayMode,
       toggleFavorite,
+      getFavoriteIcon,
     };
   },
 });
