@@ -9,6 +9,7 @@
       loading: initDataLoading,
       title: '正在载入 ...',
     }"
+    :style="offsetStyle"
   >
     <div class="scroll-content">
       <template v-if="!initDataLoading && recommendDetail">
@@ -22,13 +23,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import Tab from '@/components/tab/Tab.vue';
 import { getRecommendDetail } from '@/apis/recommend';
 import { RecommendDetail } from '@/apis/recommend/types';
 import RecommendBanner from './RecommendBanner.vue';
 import RecommendList from './RecommendList.vue';
 import useScroll from '@/hooks/useScroll';
+import useScrollWrapper from '@/hooks/useScrollWrapper';
+import { useMusicStore } from '@/store/music';
 
 export default defineComponent({
   name: 'Recommend',
@@ -38,10 +41,20 @@ export default defineComponent({
     RecommendList,
   },
   setup() {
+    const musicStore = useMusicStore();
     const scrollContainerRef = ref();
     const initDataLoading = ref(true);
     const recommendDetail = ref<RecommendDetail | null>(null);
-    useScroll(scrollContainerRef);
+    const { scrollInstance } = useScroll(scrollContainerRef);
+    useScrollWrapper(scrollInstance);
+    // 如果顶部迷你音乐播放器, 设置间距样式
+    const offsetStyle = computed(() => {
+      const offsetValue = musicStore.playList.length > 0 ? 60 : 0;
+
+      return {
+        bottom: `${offsetValue}px`,
+      };
+    });
 
     // 初始化数据
     const initData = async () => {
@@ -64,6 +77,7 @@ export default defineComponent({
       initDataLoading,
       recommendDetail,
       scrollContainerRef,
+      offsetStyle,
     };
   },
 });

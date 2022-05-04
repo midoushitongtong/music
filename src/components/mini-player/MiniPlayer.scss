@@ -66,13 +66,6 @@
       &:not(:last-child) {
         margin-right: 1rem;
       }
-      .icon-mini {
-        position: absolute;
-        left: 0;
-        top: 0;
-        color: $color-theme-d;
-        font-size: 30px;
-      }
       .icon-playlist {
         font-size: 28px;
         color: $color-theme-d;

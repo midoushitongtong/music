@@ -118,6 +118,19 @@ const useMusicStore = defineStore('music', () => {
     songList.value = songListTemp;
     playList.value = playListTemp;
     currentPlayIndex.value = currentPlayIndexTemp;
+
+    // 当删除最后一首歌, 此时列表中没有歌曲, 暂停播放歌曲
+    if (playList.value.length === 0) {
+      // 暂停播放
+      playing.value = false;
+    }
+  };
+  const clearSongList = () => {
+    songList.value = [];
+    playList.value = [];
+    currentPlayIndex.value = 0;
+    // 暂停播放歌曲
+    playing.value = false;
   };
 
   return {
@@ -140,6 +153,7 @@ const useMusicStore = defineStore('music', () => {
     randomSongList,
     togglePlayMode,
     removeSongListItem,
+    clearSongList,
   };
 });
 

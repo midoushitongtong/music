@@ -1,14 +1,14 @@
 <template>
   <Teleport to="body">
     <Transition name="play-list">
-      <div class="play-list-wrapper" v-show="visible && playList.length > 0" @click="hidePlayList">
+      <div class="play-list-wrapper" v-show="visible" @click="hidePlayList">
         <div class="play-list-container" @click.stop>
           <!-- header -->
           <div class="header-container">
             <h1 class="title">
               <i class="icon" :class="icon.playMode" />
               <span class="text">{{ text.playMode }}</span>
-              <span class="clear">
+              <span class="clear" @click="clearPlayeList">
                 <i class="icon-clear" />
               </span>
             </h1>
@@ -50,6 +50,8 @@
       </div>
     </Transition>
   </Teleport>
+
+  <ConfirmModal ref="confirmModalRef" />
 </template>
 
 <script lang="ts">
@@ -59,11 +61,15 @@ import { PLAYER_FAVORITE_STORAGE_KEY, useMusicStore } from '@/store/music';
 import { PLAY_MODE } from '@/store/music/types';
 import { computed, defineComponent, nextTick, ref, watch } from 'vue';
 import { remove, save } from '@/utils/array-storage';
+import ConfirmModal from '@/components/confirm-modal/ConfirmModal.vue';
 
 export default defineComponent({
   name: 'PlayList',
-  components: {},
+  components: {
+    ConfirmModal,
+  },
   setup() {
+    const confirmModalRef = ref();
     const visible = ref();
     const songlistRef = ref();
     const scrollContainerRef = ref();
@@ -176,6 +182,18 @@ export default defineComponent({
       musicStore.removeSongListItem(songListItem);
     };
 
+    // 清空播放列表
+    const clearPlayeList = () => {
+      confirmModalRef.value.initModal({
+        description: '是否清空播放列表？',
+        confirmButtonText: '清空',
+        cancelButtonText: '取消',
+        onConfirm: () => {
+          musicStore.clearSongList();
+        },
+      });
+    };
+
     // 监听切换歌曲, 更新 dom
     watch(currentSong, () => {
       if (!visible.value) {
@@ -185,6 +203,13 @@ export default defineComponent({
         // 滚动到当前歌曲
         scrollToCurrent();
       });
+    });
+
+    // 如果当前没有可播放的歌曲, 隐藏
+    watch(playList, (newValue) => {
+      if (newValue.length === 0) {
+        hidePlayList();
+      }
     });
 
     return {
@@ -204,6 +229,8 @@ export default defineComponent({
       toggleFavorite,
       removeSong,
       removing,
+      confirmModalRef,
+      clearPlayeList,
     };
   },
 });

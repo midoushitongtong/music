@@ -63,6 +63,7 @@ import useScroll from '@/hooks/useScroll';
 import { useRouter } from 'vue-router';
 import { useMusicStore } from '@/store/music';
 import { SongListItem } from '@/apis/song/types';
+import useScrollWrapper from '@/hooks/useScrollWrapper';
 
 const HEADER_HEIGHT = 45;
 
@@ -79,6 +80,7 @@ export default defineComponent({
     const scrollContainerRef = ref();
     const backgroundImageHeight = ref(0);
     const { scrollInstance } = useScroll(scrollContainerRef);
+    useScrollWrapper(scrollInstance);
     const router = useRouter();
     const scrollY = ref(0);
     const maxTranslateY = ref(0); // 如果滚动条超过这个值, 让顶部内容覆盖列表
@@ -151,9 +153,12 @@ export default defineComponent({
 
     // scroll container style
     const scrollContainerStyle = computed(() => {
+      // 如果顶部迷你音乐播放器, 设置间距样式
+      const offsetValue = musicStore.playList.length > 0 ? 60 : 0;
+
       return {
         top: `${backgroundImageHeight.value}px`,
-        bottom: 0,
+        bottom: `${offsetValue}px`,
       };
     });
 

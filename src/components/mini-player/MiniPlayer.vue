@@ -111,6 +111,22 @@ export default defineComponent({
       }
     });
 
+    // 监听 playeList 刷新 BScroll (当移除了某个歌曲就会触发)
+    watch(playList, (newValue) => {
+      nextTick(() => {
+        // 已经实例化 BScroll
+        if (sliderInstance.value) {
+          // fix: 只有 display: block 才刷新, 不然 BScroll 会报错
+          if (sliderShow.value) {
+            // fix: 只有当歌曲长度大于 0 才刷新, 不然 BScroll 会报错
+            if (newValue.length > 0) {
+              sliderInstance.value.refresh();
+            }
+          }
+        }
+      });
+    });
+
     // 监听 currentPlayIndex 滚动到当前歌曲的 index
     watch(currentPlayIndex, (newValue) => {
       nextTick(() => {
@@ -122,26 +138,16 @@ export default defineComponent({
       });
     });
 
-    // 监听 playeList 刷新 BScroll (当移除了某个歌曲就会触发)
-    watch(playList, () => {
-      nextTick(() => {
-        // 已经实例化 BScroll
-        if (sliderInstance.value) {
-          sliderInstance.value.refresh();
-        }
-      });
-    });
-
     return {
       playListRef,
       fullScreen,
       currentSong,
       playing,
       playList,
-      showNormalPlayer,
       scrollContainerRef,
       sliderShow,
       showPlayList,
+      showNormalPlayer,
     };
   },
 });

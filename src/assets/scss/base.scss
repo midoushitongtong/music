@@ -40,16 +40,6 @@ html {
   height: 0 !important;
 }
 
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .global-relative {
   position: relative;
 }
@@ -112,10 +102,22 @@ html {
 .song-list-leave-active {
   transition: all 0.3s;
 }
-
 .song-list-enter-from,
 .song-list-leave-to {
   height: 0 !important;
+}
+
+.confirm-enter-active {
+  animation: confirm-fade-in 0.3s;
+  .confirm-content {
+    animation: confirm-zoom-in 0.3s;
+  }
+}
+.confirm-leave-active {
+  animation: confirm-fade-out 0.3s;
+  .confirm-content {
+    animation: confirm-zoom-out 0.3s;
+  }
 }
 
 @keyframes rotate {
@@ -125,5 +127,49 @@ html {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes confirm-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes confirm-fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes confirm-zoom-in {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes confirm-zoom-out {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
   }
 }

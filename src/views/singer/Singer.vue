@@ -9,6 +9,7 @@
       loading: initDataLoading,
       title: '正在载入 ...',
     }"
+    :style="offsetStyle"
   >
     <div class="scroll-content">
       <template v-if="!initDataLoading">
@@ -60,6 +61,8 @@ import SingerList from './SingerList.vue';
 import useScroll from '@/hooks/useScroll';
 import useFixed from '@/hooks/useFixed';
 import useShortcut from '@/hooks/useShortcut';
+import { useMusicStore } from '@/store/music';
+import useScrollWrapper from '@/hooks/useScrollWrapper';
 
 export default defineComponent({
   name: 'Singer',
@@ -69,9 +72,11 @@ export default defineComponent({
   },
   setup() {
     const scrollContainerRef = ref();
+    const musicStore = useMusicStore();
     const initDataLoading = ref(true);
     const singerGroupByTitleList = ref<SingerGroupByTitleListItem[]>([]);
     const { scrollInstance } = useScroll(scrollContainerRef);
+    useScrollWrapper(scrollInstance);
     // 当前 scroll y 位置
     const scrollY = ref(0);
     const { currentIndex, fixedStyle } = useFixed({
@@ -92,6 +97,14 @@ export default defineComponent({
       groupListSelector: '.singer-group-list',
       data: singerGroupByTitleList,
       scrollInstanceRef: scrollInstance,
+    });
+    // 如果顶部迷你音乐播放器, 设置间距样式
+    const offsetStyle = computed(() => {
+      const offsetValue = musicStore.playList.length > 0 ? 60 : 0;
+
+      return {
+        bottom: `${offsetValue}px`,
+      };
     });
 
     // 初始化数据
@@ -131,6 +144,7 @@ export default defineComponent({
       fixedStyle,
       currentIndex,
       shortcutList,
+      offsetStyle,
       onShortcutTouchStart,
       onShortcutTouchMove,
     };
