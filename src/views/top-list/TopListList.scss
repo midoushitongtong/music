@@ -1,0 +1,74 @@
+@import '@/assets/scss/variable';
+
+.container {
+  .content-title {
+    padding: 1rem;
+    text-align: center;
+    font-size: $font-size-medium;
+    line-height: 1.5rem;
+    color: $color-theme;
+  }
+
+  .list {
+    padding-bottom: 1rem;
+    .list-item {
+      margin: 0 1rem 1rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &:active {
+        opacity: 0.5;
+      }
+      display: flex;
+      align-items: center;
+      background: $color-highlight-background;
+      font-size: $font-size-small;
+      .left {
+        width: 105px;
+        height: 105px;
+        .top-list-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .right {
+        flex: 1;
+        padding: 0.5rem 1rem;
+        overflow: hidden;
+        .top-list-title {
+          margin-bottom: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: bold;
+          color: $color-text;
+        }
+        .song-list {
+          .song-list-item {
+            margin-bottom: 0.25rem;
+            &:last-child {
+              margin-bottom: 0;
+            }
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            .number {
+              margin-right: 2px;
+              font-weight: bold;
+              color: $color-text-ll;
+            }
+            .title {
+              margin-right: 2px;
+              color: $color-text-ll;
+            }
+            .singer {
+              color: $color-text-d;
+            }
+            .separator {
+              margin: 0 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

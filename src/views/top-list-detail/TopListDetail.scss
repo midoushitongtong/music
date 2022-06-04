@@ -1,0 +1,13 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.container {
+  position: fixed;
+  top: 45px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  // 100vh - 头部高度
+  height: calc(100vh - 45px);
+  background-color: #222;
+}

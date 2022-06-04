@@ -48,9 +48,26 @@ html {
 .singer-detail-leave-active {
   transition: all 0.3s;
 }
-
 .singer-detail-enter-from,
 .singer-detail-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+
+.recommend-detail-enter-active,
+.recommend-detail-leave-active {
+  transition: all 0.3s;
+}
+.recommend-detail-enter-from,
+.recommend-detail-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+
+.top-list-detail-enter-active,
+.top-list-detail-leave-active {
+  transition: all 0.3s;
+}
+.top-list-detail-enter-from,
+.top-list-detail-leave-to {
   transform: translate3d(100%, 0, 0);
 }
 

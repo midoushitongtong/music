@@ -20,6 +20,13 @@
       </template>
     </div>
   </div>
+
+  <!-- router view -->
+  <RouterView v-slot="{ Component }">
+    <Transition name="recommend-detail">
+      <Component :is="Component" />
+    </Transition>
+  </RouterView>
 </template>
 
 <script lang="ts">

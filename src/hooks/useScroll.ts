@@ -22,9 +22,6 @@ const useScroll = (scrollContainerRef: any, props?: Props) => {
       observeDOM: true, // 开启 observe-dom 插件,
       probeType: 3,
       ...props?.otherBScrollOption,
-      preventDefaultException: {
-        className: /(^|\s)can-touch(\s|$)/,
-      },
     });
   });
 

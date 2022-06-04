@@ -18,6 +18,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/recommend',
     name: 'Recommend',
     component: () => import(/* webpackChunkName: "recommend" */ '../views/recommend/Recommend.vue'),
+    children: [
+      {
+        path: '/recommend/album/:id',
+        name: 'AlbumDetail',
+        component: () =>
+          import(/* webpackChunkName: "album-detail" */ '../views/album-detail/AlbumDetail.vue'),
+      },
+    ],
   },
   {
     path: '/search',
@@ -41,6 +49,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/top-list',
     name: 'TopList',
     component: () => import(/* webpackChunkName: "top-list" */ '../views/top-list/TopList.vue'),
+    children: [
+      {
+        path: '/top-list/:id',
+        name: 'TopListDetail',
+        component: () =>
+          import(
+            /* webpackChunkName: "top-list-detail" */ '../views/top-list-detail/TopListDetail.vue'
+          ),
+      },
+    ],
   },
 ];
 

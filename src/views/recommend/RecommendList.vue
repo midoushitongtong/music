@@ -40,6 +40,7 @@
 <script lang="ts">
 import { RecommendDetail } from '@/apis/recommend/types';
 import { defineComponent, PropType } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'RecommendList',
@@ -51,8 +52,15 @@ export default defineComponent({
     },
   },
   setup() {
+    const router = useRouter();
+
     const handleClickItem = (item: RecommendDetail['albums'][0]) => {
-      console.log(item);
+      router.push({
+        name: 'AlbumDetail',
+        params: {
+          id: item.id,
+        },
+      });
     };
 
     return {
