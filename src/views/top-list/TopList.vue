@@ -12,9 +12,9 @@
     :style="offsetStyle"
   >
     <div class="scroll-content">
-      <template v-if="!initDataLoading && topListDetail">
+      <template v-if="!initDataLoading && topList">
         <!-- list -->
-        <TopListList :topListDetail="topListDetail" />
+        <TopListList :topList="topList" />
       </template>
     </div>
   </div>
@@ -30,8 +30,8 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import Tab from '@/components/tab/Tab.vue';
-import { getTopListDetail } from '@/apis/top-list';
-import { TopListDetail } from '@/apis/top-list/types';
+import { getTopList } from '@/apis/top-list';
+import { TopList } from '@/apis/top-list/types';
 import useScroll from '@/hooks/useScroll';
 import useScrollWrapper from '@/hooks/useScrollWrapper';
 import { useMusicStore } from '@/store/music';
@@ -47,7 +47,7 @@ export default defineComponent({
     const musicStore = useMusicStore();
     const scrollContainerRef = ref();
     const initDataLoading = ref(true);
-    const topListDetail = ref<TopListDetail | null>(null);
+    const topList = ref<TopList | null>(null);
     const { scrollInstance } = useScroll(scrollContainerRef);
     useScrollWrapper(scrollInstance);
     // 如果顶部迷你音乐播放器, 设置间距样式
@@ -63,8 +63,8 @@ export default defineComponent({
     const initData = async () => {
       try {
         initDataLoading.value = true;
-        const result = await getTopListDetail();
-        topListDetail.value = result.result;
+        const result = await getTopList();
+        topList.value = result.result;
         initDataLoading.value = false;
       } catch (error) {
         console.log('获取 api 数据失败');
@@ -78,7 +78,7 @@ export default defineComponent({
 
     return {
       initDataLoading,
-      topListDetail,
+      topList,
       scrollContainerRef,
       offsetStyle,
     };

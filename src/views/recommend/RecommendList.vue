@@ -13,7 +13,7 @@
     <!-- list -->
     <div class="list">
       <div
-        v-for="item in recommendDetail.albums"
+        v-for="item in recommend.albums"
         :key="item.id"
         class="list-item"
         @click="handleClickItem(item)"
@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { RecommendDetail } from '@/apis/recommend/types';
+import { Recommend } from '@/apis/recommend/types';
 import { defineComponent, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -46,15 +46,15 @@ export default defineComponent({
   name: 'RecommendList',
   components: {},
   props: {
-    recommendDetail: {
-      type: Object as PropType<RecommendDetail>,
+    recommend: {
+      type: Object as PropType<Recommend>,
       required: true,
     },
   },
   setup() {
     const router = useRouter();
 
-    const handleClickItem = (item: RecommendDetail['albums'][0]) => {
+    const handleClickItem = (item: Recommend['albums'][0]) => {
       router.push({
         name: 'AlbumDetail',
         params: {

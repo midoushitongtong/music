@@ -1,9 +1,9 @@
-import { RecommendDetail } from './types';
+import { Recommend } from './types';
 
 // 推荐数据
-export const getRecommendDetail = () => {
+export const getRecommend = () => {
   return new Promise<{
-    result: RecommendDetail;
+    result: Recommend;
   }>((resolve) => {
     setTimeout(() => {
       resolve({

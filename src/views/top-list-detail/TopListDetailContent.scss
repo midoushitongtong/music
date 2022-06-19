@@ -82,15 +82,40 @@
       .song-list {
         .song-list-item {
           display: flex;
-          flex-direction: column;
           padding: 0.6rem 1rem;
-          .title {
-            font-size: $font-size-medium;
-            color: $color-text;
+          .left {
+            flex: none;
+            width: 30px;
+            text-align: center;
+            .icon {
+              display: flex;
+              width: 30px;
+              height: 24px;
+              background-size: 25px 24px;
+              background-position: center;
+              background-repeat: no-repeat;
+              &.icon-1 {
+                @include backgrounImage('../../assets/images/first.png');
+              }
+              &.icon-2 {
+                @include backgrounImage('../../assets/images/second.png');
+              }
+              &.icon-3 {
+                @include backgrounImage('../../assets/images/third.png');
+              }
+            }
           }
-          .album {
-            margin-top: 0.25rem;
-            color: $color-text-d;
+          .right {
+            padding-left: 1rem;
+            flex: 1;
+            .title {
+              font-size: $font-size-medium;
+              color: $color-text;
+            }
+            .album {
+              margin-top: 0.25rem;
+              color: $color-text-d;
+            }
           }
         }
       }

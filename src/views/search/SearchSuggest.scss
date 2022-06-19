@@ -1,0 +1,31 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.search-suggest-container {
+  position: relative;
+  padding: 1rem 1.5rem 0;
+  min-height: 200px;
+  .suggest-list {
+    .suggest-list-item {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0;
+      .icon {
+        width: 30px;
+        [class^='icon-'] {
+          font-size: 1rem;
+          color: $color-text-d;
+        }
+      }
+      .name {
+        flex: 1;
+        font-size: $font-size-medium;
+        color: $color-text-d;
+        overflow: hidden;
+        .text {
+          @include noWrap();
+        }
+      }
+    }
+  }
+}

@@ -6,8 +6,8 @@
       title: '正在载入 ...',
     }"
   >
-    <template v-if="!initDataLoading && albumDetail">
-      <TopListDetailContent :albumDetail="albumDetail" />
+    <template v-if="!initDataLoading && topListDetail">
+      <TopListDetailContent :topListDetail="topListDetail" />
     </template>
   </div>
 </template>
@@ -16,8 +16,8 @@
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import TopListDetailContent from './TopListDetailContent.vue';
-import { getAlbumDetail } from '@/apis/album';
-import { AlbumDetail } from '@/apis/album/types';
+import { getTopListDetail } from '@/apis/top-list';
+import { TopListDetail } from '@/apis/top-list/types';
 
 export default defineComponent({
   name: 'TopListDetail',
@@ -26,7 +26,7 @@ export default defineComponent({
   },
   setup() {
     const initDataLoading = ref(true);
-    const albumDetail = ref<AlbumDetail | null>(null);
+    const topListDetail = ref<TopListDetail | null>(null);
     const route = useRoute();
     const id = computed(() => route.params.id.toString());
 
@@ -34,10 +34,10 @@ export default defineComponent({
     const initData = async () => {
       try {
         initDataLoading.value = true;
-        const result = await getAlbumDetail({
+        const result = await getTopListDetail({
           id: id.value,
         });
-        albumDetail.value = result.result;
+        topListDetail.value = result.result;
         initDataLoading.value = false;
       } catch (error) {
         console.log('获取 api 数据失败');
@@ -51,7 +51,7 @@ export default defineComponent({
 
     return {
       initDataLoading,
-      albumDetail,
+      topListDetail,
     };
   },
 });

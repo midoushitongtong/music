@@ -1,0 +1,38 @@
+@import '@/assets/scss/variable';
+
+.scroll-container {
+  overflow: hidden;
+  position: fixed;
+  // 头部高度 + tab 高度
+  top: calc(45px + 45px);
+  left: 0;
+  width: 100%;
+
+  .scroll-content {
+    min-height: 100%;
+
+    .hot-keyword {
+      margin: 1.5rem 1rem 0;
+      .title {
+        font-size: $font-size-medium;
+        color: $color-text-l;
+      }
+      .hot-keyword-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 1rem -0.35rem 0;
+        .hot-keyword-list-item {
+          padding: 0 0.35rem;
+          margin-bottom: 0.7rem;
+          .hot-keyword-list-item-inner {
+            padding: 0.35rem 0.7rem;
+            border-radius: 6px;
+            font-size: $font-size-medium;
+            color: $color-text-d;
+            background: $color-highlight-background;
+          }
+        }
+      }
+    }
+  }
+}

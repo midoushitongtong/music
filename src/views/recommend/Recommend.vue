@@ -12,11 +12,11 @@
     :style="offsetStyle"
   >
     <div class="scroll-content">
-      <template v-if="!initDataLoading && recommendDetail">
+      <template v-if="!initDataLoading && recommend">
         <!-- banner -->
-        <RecommendBanner :recommendDetail="recommendDetail" />
+        <RecommendBanner :recommend="recommend" />
         <!-- list -->
-        <RecommendList :recommendDetail="recommendDetail" />
+        <RecommendList :recommend="recommend" />
       </template>
     </div>
   </div>
@@ -32,8 +32,8 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import Tab from '@/components/tab/Tab.vue';
-import { getRecommendDetail } from '@/apis/recommend';
-import { RecommendDetail } from '@/apis/recommend/types';
+import { getRecommend } from '@/apis/recommend';
+import { Recommend } from '@/apis/recommend/types';
 import RecommendBanner from './RecommendBanner.vue';
 import RecommendList from './RecommendList.vue';
 import useScroll from '@/hooks/useScroll';
@@ -51,7 +51,7 @@ export default defineComponent({
     const musicStore = useMusicStore();
     const scrollContainerRef = ref();
     const initDataLoading = ref(true);
-    const recommendDetail = ref<RecommendDetail | null>(null);
+    const recommend = ref<Recommend | null>(null);
     const { scrollInstance } = useScroll(scrollContainerRef);
     useScrollWrapper(scrollInstance);
     // 如果顶部迷你音乐播放器, 设置间距样式
@@ -67,8 +67,8 @@ export default defineComponent({
     const initData = async () => {
       try {
         initDataLoading.value = true;
-        const result = await getRecommendDetail();
-        recommendDetail.value = result.result;
+        const result = await getRecommend();
+        recommend.value = result.result;
         initDataLoading.value = false;
       } catch (error) {
         console.log('获取 api 数据失败');
@@ -82,7 +82,7 @@ export default defineComponent({
 
     return {
       initDataLoading,
-      recommendDetail,
+      recommend,
       scrollContainerRef,
       offsetStyle,
     };

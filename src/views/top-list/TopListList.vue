@@ -10,7 +10,7 @@
     <div class="list">
       <div
         class="list-item"
-        v-for="item of topListDetail.topList"
+        v-for="item of topList.topList"
         :key="item.id"
         @click="handleClickItem(item)"
       >
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { TopListDetail } from '@/apis/top-list/types';
+import { TopList } from '@/apis/top-list/types';
 import { defineComponent, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -42,15 +42,15 @@ export default defineComponent({
   name: 'TopListList',
   components: {},
   props: {
-    topListDetail: {
-      type: Object as PropType<TopListDetail>,
+    topList: {
+      type: Object as PropType<TopList>,
       required: true,
     },
   },
   setup() {
     const router = useRouter();
 
-    const handleClickItem = (item: TopListDetail['topList'][0]) => {
+    const handleClickItem = (item: TopList['topList'][0]) => {
       router.push({
         name: 'TopListDetail',
         params: {

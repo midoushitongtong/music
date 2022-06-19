@@ -5,11 +5,11 @@
       <i class="icon-back"></i>
     </div>
     <!-- title -->
-    <h1 class="title">{{ albumDetail.name }}</h1>
+    <h1 class="title">{{ topListDetail.name }}</h1>
     <!-- image -->
     <div class="background-image" ref="backgroundImageRef" :style="backgroundImageContainerStyle">
       <div
-        v-if="albumDetail.songList.length > 0"
+        v-if="topListDetail.songList.length > 0"
         class="play-action-container"
         :style="playButtonStyle"
       >
@@ -26,7 +26,7 @@
       ref="scrollContainerRef"
       :style="scrollContainerStyle"
       v-noResult="{
-        noResult: albumDetail.songList.length === 0,
+        noResult: topListDetail.songList.length === 0,
         title: '抱歉, 没有找到此歌手相关歌曲',
       }"
     >
@@ -34,12 +34,19 @@
         <div class="song-list">
           <div
             class="song-list-item"
-            v-for="item of albumDetail.songList"
+            v-for="(item, index) of topListDetail.songList"
             :key="item.id"
             @click="handleSongClick(item)"
           >
-            <div class="name">{{ item.title }}</div>
-            <div class="album">{{ item.album }}</div>
+            <div class="left">
+              <span :class="getRank(index).class">
+                {{ getRank(index).text }}
+              </span>
+            </div>
+            <div class="right">
+              <div class="name">{{ item.title }}</div>
+              <div class="album">{{ item.album }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -63,15 +70,15 @@ import { useRouter } from 'vue-router';
 import { useMusicStore } from '@/store/music';
 import { SongListItem } from '@/apis/song/types';
 import useScrollWrapper from '@/hooks/useScrollWrapper';
-import { AlbumDetail } from '@/apis/album/types';
+import { TopListDetail } from '@/apis/top-list/types';
 
 const HEADER_HEIGHT = 45;
 
 export default defineComponent({
   name: 'TopListDetailContent',
   props: {
-    albumDetail: {
-      type: Object as PropType<AlbumDetail>,
+    topListDetail: {
+      type: Object as PropType<TopListDetail>,
       required: true,
     },
   },
@@ -115,7 +122,7 @@ export default defineComponent({
         paddingTop,
         height,
         transform: `translateZ(${translateZ}) scale(${scale})`,
-        backgroundImage: `url(${props.albumDetail?.image})`,
+        backgroundImage: `url(${props.topListDetail?.image})`,
       };
     });
 
@@ -188,14 +195,22 @@ export default defineComponent({
     // 歌曲点击
     const handleSongClick = (item: SongListItem) => {
       musicStore.selectPlay({
-        songList: props.albumDetail.songList,
-        currentPlayIndex: props.albumDetail.songList.findIndex((item2) => item2.id === item.id),
+        songList: props.topListDetail.songList,
+        currentPlayIndex: props.topListDetail.songList.findIndex((item2) => item2.id === item.id),
       });
     };
 
     // 随机播放
     const handleRandomPlay = () => {
-      musicStore.randomSongList(props.albumDetail.songList);
+      musicStore.randomSongList(props.topListDetail.songList);
+    };
+
+    // get rank
+    const getRank = (index: number) => {
+      return {
+        class: index <= 2 ? `icon icon-${index + 1}` : '',
+        text: index <= 2 ? '' : index + 1,
+      };
     };
 
     onMounted(async () => {
@@ -219,6 +234,7 @@ export default defineComponent({
       backgroundImageFilterContainerStyle,
       handleSongClick,
       handleRandomPlay,
+      getRank,
     };
   },
 });

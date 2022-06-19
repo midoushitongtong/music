@@ -17,6 +17,7 @@
     "@better-scroll/slide": "^2.4.2",
     "core-js": "^3.6.5",
     "create-keyframe-animation": "^0.1.0",
+    "lodash": "^4.17.21",
     "lyric-parser": "^1.0.1",
     "mitt": "^3.0.0",
     "pinia": "^2.0.11",
@@ -26,6 +27,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
