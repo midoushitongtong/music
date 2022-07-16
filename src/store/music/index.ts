@@ -132,6 +132,33 @@ const useMusicStore = defineStore('music', () => {
     // 暂停播放歌曲
     playing.value = false;
   };
+  const addSong = (songListItem: SongListItem) => {
+    const songListTemp = [...songList.value];
+    const playListTemp = [...playList.value];
+    let currentPlayIndexTemp = currentPlayIndex.value;
+
+    const playIndex = playListTemp.findIndex((item) => item.id === songListItem.id);
+    // 存在列表才添加
+    if (playIndex === -1) {
+      playListTemp.push(songListItem);
+      currentPlayIndexTemp = playListTemp.length - 1;
+    } else {
+      currentPlayIndexTemp = playIndex;
+    }
+
+    const songIndex = songListTemp.findIndex((item) => item.id === songListItem.id);
+    // 存在列表才添加
+    if (songIndex === -1) {
+      songListTemp.push(songListItem);
+    }
+
+    songList.value = songListTemp;
+    playList.value = playListTemp;
+    currentPlayIndex.value = currentPlayIndexTemp;
+    // 顺序播放模式
+    playMode.value = PLAY_MODE.sequence;
+    fullScreen.value = true;
+  };
 
   return {
     songList,
@@ -154,6 +181,7 @@ const useMusicStore = defineStore('music', () => {
     togglePlayMode,
     removeSongListItem,
     clearSongList,
+    addSong,
   };
 });
 

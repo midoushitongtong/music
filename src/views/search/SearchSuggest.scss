@@ -2,10 +2,14 @@
 @import '@/assets/scss/mixin';
 
 .search-suggest-container {
-  position: relative;
-  padding: 1rem 1.5rem 0;
-  min-height: 200px;
+  position: fixed;
+  // 头部高度 + tab 高度 + search input 宽度
+  top: 45px + 45px + 32px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
   .suggest-list {
+    padding: 1rem 1.5rem;
     .suggest-list-item {
       display: flex;
       align-items: center;
@@ -26,6 +30,11 @@
           @include noWrap();
         }
       }
+    }
+
+    .load-more-data-loading {
+      position: relative;
+      height: 50px;
     }
   }
 }

@@ -33,6 +33,13 @@
       </template>
     </div>
   </div>
+
+  <!-- router view -->
+  <RouterView v-slot="{ Component }">
+    <Transition name="singer-detail">
+      <Component :is="Component" />
+    </Transition>
+  </RouterView>
 </template>
 
 <script lang="ts">

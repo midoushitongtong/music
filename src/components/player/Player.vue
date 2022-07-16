@@ -128,7 +128,7 @@ export default defineComponent({
       // 更新歌曲地址
       audio.updateAttr('src', currentSong.value.url);
       // 更新歌曲音量
-      audio.updateAttr('volume', 0.1);
+      audio.updateAttr('volume', 1);
       // 更新歌曲进度
       audio.updateAttr('currentTime', 0);
       // 开始播放
