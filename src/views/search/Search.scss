@@ -10,6 +10,7 @@
 
   .scroll-content {
     min-height: 100%;
+    padding-bottom: 1rem;
 
     .hot-keyword {
       margin: 1.5rem 1rem 0;
@@ -23,9 +24,9 @@
         margin: 1rem -0.35rem 0;
         .hot-keyword-list-item {
           padding: 0 0.35rem;
-          margin-bottom: 0.7rem;
+          margin-bottom: 0.65rem;
           .hot-keyword-list-item-inner {
-            padding: 0.35rem 0.7rem;
+            padding: 0.35rem 0.65rem;
             border-radius: 6px;
             font-size: $font-size-medium;
             color: $color-text-d;

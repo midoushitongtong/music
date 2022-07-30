@@ -60,6 +60,7 @@ import { computed, defineComponent, nextTick, ref, watch } from 'vue';
 import { SearchKeywordListItem } from '@/apis/search/types';
 import { getSearchKeywordList } from '@/apis/search';
 import usePullUpLoad from '@/hooks/usePullUpLoad';
+import useSearchHistory from '@/hooks/useSearchHistory';
 import { useMusicStore } from '@/store/music';
 import useScrollWrapper from '@/hooks/useScrollWrapper';
 import { useRouter } from 'vue-router';
@@ -73,6 +74,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { saveSearchHistory } = useSearchHistory();
     const router = useRouter();
     const musicStore = useMusicStore();
     // 如果顶部迷你音乐播放器, 设置间距样式
@@ -168,6 +170,7 @@ export default defineComponent({
       if (item.type === 'song' && item.songListItem) {
         musicStore.addSong(item.songListItem);
       }
+
       if (item.type === 'singer') {
         router.push({
           name: 'SearchSingerDetail',
@@ -175,6 +178,11 @@ export default defineComponent({
             id: item.singerId,
           },
         });
+      }
+
+      // 保存搜索历史
+      if (props.query) {
+        saveSearchHistory(props.query);
       }
     };
 

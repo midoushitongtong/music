@@ -1,0 +1,55 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.search-history-container {
+  margin: 1.5rem 1rem 0;
+  .title {
+    display: flex;
+    align-items: center;
+    font-size: $font-size-medium;
+    color: $color-text-l;
+    .text {
+      flex: 1;
+      padding-right: 1rem;
+    }
+    .clear {
+      @include extendClick();
+      .icon-clear {
+        font-size: $font-size-medium;
+        color: $color-text-d;
+      }
+    }
+  }
+
+  .search-history-list {
+    margin: 1rem 0;
+    .search-history-list-item {
+      height: calc(2.5rem + 0.65rem); // 和下方 .65rem 一致
+      overflow: hidden;
+      .search-history-list-item-inner {
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.65rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        font-size: $font-size-medium;
+        color: $color-text-d;
+        background: $color-highlight-background;
+        .text {
+          flex: 1;
+          color: $color-text-l;
+          padding-right: 0.65rem;
+          @include noWrap();
+        }
+        .icon {
+          @include extendClick();
+          .icon-delete {
+            font-size: $font-size-small-s;
+            color: $color-text-d;
+          }
+        }
+      }
+    }
+  }
+}

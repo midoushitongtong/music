@@ -190,3 +190,13 @@ html {
     transform: scale(0);
   }
 }
+
+.search-history-list-enter-active,
+.search-history-list-leave-active {
+  transition: all 0.3s;
+}
+
+.search-history-list-enter-from,
+.search-history-list-leave-to {
+  height: 0 !important;
+}

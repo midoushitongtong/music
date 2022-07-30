@@ -68,3 +68,8 @@ export const get = (key: any) => {
 
   return arrayValue;
 };
+
+export const clear = (key: any) => {
+  localStorage.removeItem(key);
+  return [];
+};

@@ -16,23 +16,32 @@
         <!-- search input -->
         <SearchInput v-model:query="query" placeholder="搜索歌曲、歌手" />
 
-        <!-- hot keyword -->
-        <div class="hot-keyword" v-show="!query">
-          <div class="title">热门搜索</div>
-          <div class="hot-keyword-list">
-            <div class="hot-keyword-list-item" v-for="(item, index) of hotKeywordList" :key="index">
-              <div class="hot-keyword-list-item-inner" @click="updateQuery(item.keyword)">
-                <span class="keyword">{{ item.keyword }}</span>
+        <div v-show="!query">
+          <!-- hot keyword -->
+          <div class="hot-keyword" v-show="!query">
+            <div class="title">热门搜索</div>
+            <div class="hot-keyword-list">
+              <div
+                class="hot-keyword-list-item"
+                v-for="(item, index) of hotKeywordList"
+                :key="index"
+              >
+                <div class="hot-keyword-list-item-inner" @click="updateQuery(item.keyword)">
+                  <span class="keyword">{{ item.keyword }}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- search result -->
-        <SearchSuggest v-show="query" :query="query" />
+          <!-- serch history -->
+          <SearchHistory @onSelectSearchHistory="updateQuery" />
+        </div>
       </template>
     </div>
   </div>
+
+  <!-- search result -->
+  <SearchSuggest v-show="query" :query="query" />
 
   <!-- router view -->
   <RouterView v-slot="{ Component }">
@@ -52,6 +61,7 @@ import useScrollWrapper from '@/hooks/useScrollWrapper';
 import { getHotKeywordList } from '@/apis/search';
 import { HotKeywordListItem } from '@/apis/search/types';
 import SearchSuggest from './SearchSuggest.vue';
+import SearchHistory from './SearchHistory.vue';
 
 export default defineComponent({
   name: 'Search',
@@ -59,6 +69,7 @@ export default defineComponent({
     Tab,
     SearchInput,
     SearchSuggest,
+    SearchHistory,
   },
   setup() {
     const initDataLoading = ref(true);
