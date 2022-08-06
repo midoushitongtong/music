@@ -1,62 +1,64 @@
 <template>
-  <div
-    class="search-suggest-scroll-container"
-    ref="scrollContainerRef"
-    v-loading="{
-      loading: initDataLoading,
-      title: '正在载入 ...',
-    }"
-    v-noResult="{
-      noResult: !initDataLoading && searchKeywordList.length === 0,
-      title: '抱歉, 没有找到相关结果',
-    }"
-    :style="offsetStyle"
-  >
-    <div class="suggest-list">
-      <!-- 歌手列表 -->
-      <div
-        class="suggest-list-item"
-        v-for="item of singerList"
-        :key="item.id"
-        @click.stop="handleClick(item)"
-      >
-        <div class="icon">
-          <div class="icon-mine"></div>
+  <div class="add-song-search-suggest-container">
+    <div
+      class="add-song-search-suggest-scroll-container"
+      ref="scrollContainerRef"
+      v-loading="{
+        loading: initDataLoading,
+        title: '正在载入 ...',
+      }"
+      v-noResult="{
+        noResult: !initDataLoading && searchKeywordList.length === 0,
+        title: '抱歉, 没有找到相关结果',
+      }"
+      :style="offsetStyle"
+    >
+      <div class="suggest-list">
+        <!-- 歌手列表 -->
+        <div
+          class="suggest-list-item"
+          v-for="item of singerList"
+          :key="item.id"
+          @click.stop="handleClick(item)"
+        >
+          <div class="icon">
+            <div class="icon-mine"></div>
+          </div>
+          <div class="name">
+            <div class="text">{{ item.singerName }}</div>
+          </div>
         </div>
-        <div class="name">
-          <div class="text">{{ item.singerName }}</div>
+        <!-- 歌曲列表 -->
+        <div
+          class="suggest-list-item"
+          v-for="item of songList"
+          :key="item.id"
+          @click.stop="handleClick(item)"
+        >
+          <div class="icon">
+            <div class="icon-music"></div>
+          </div>
+          <div class="name">
+            <div class="text">{{ `${item.singerName} - ${item.songName}` }}</div>
+          </div>
         </div>
-      </div>
-      <!-- 歌曲列表 -->
-      <div
-        class="suggest-list-item"
-        v-for="item of songList"
-        :key="item.id"
-        @click.stop="handleClick(item)"
-      >
-        <div class="icon">
-          <div class="icon-music"></div>
-        </div>
-        <div class="name">
-          <div class="text">{{ `${item.singerName} - ${item.songName}` }}</div>
-        </div>
-      </div>
 
-      <!-- load more data laading -->
-      <div
-        v-if="!notMoreData"
-        class="load-more-data-loading"
-        v-loading="{
-          loading: pullingUpLoading,
-          title: '',
-        }"
-      ></div>
+        <!-- load more data laading -->
+        <div
+          v-if="!notMoreData"
+          class="load-more-data-loading"
+          v-loading="{
+            loading: pullingUpLoading,
+            title: '',
+          }"
+        ></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue';
+import { computed, defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { SearchKeywordListItem } from '@/apis/search/types';
 import { getSearchKeywordList } from '@/apis/search';
 import usePullUpLoad from '@/hooks/usePullUpLoad';
@@ -64,9 +66,10 @@ import useSearchHistory from '@/hooks/useSearchHistory';
 import { useMusicStore } from '@/store/music';
 import useScrollWrapper from '@/hooks/useScrollWrapper';
 import { useRouter } from 'vue-router';
+import { emitter } from '@/utils/emitter';
 
 export default defineComponent({
-  name: 'SearchSuggest',
+  name: 'AddSongSearchSuggest',
   props: {
     query: {
       type: String,
@@ -77,9 +80,8 @@ export default defineComponent({
     const { saveSearchHistory } = useSearchHistory();
     const router = useRouter();
     const musicStore = useMusicStore();
-    // 如果顶部迷你音乐播放器, 设置间距样式
     const offsetStyle = computed(() => {
-      const offsetValue = musicStore.playList.length > 0 ? 60 : 0;
+      const offsetValue = 0;
 
       return {
         bottom: `${offsetValue}px`,
@@ -111,6 +113,7 @@ export default defineComponent({
         const result = await getSearchKeywordList({
           pageNum: pagination.value.pageNum,
           pageSize: pagination.value.pageSize,
+          hideSinger: true,
         });
         searchKeywordList.value = result.result;
         pagination.value.total = result.total;
@@ -148,6 +151,7 @@ export default defineComponent({
         const result = await getSearchKeywordList({
           pageNum: pagination.value.pageNum,
           pageSize: pagination.value.pageSize,
+          hideSinger: true,
         });
         searchKeywordList.value = [...searchKeywordList.value, ...result.result];
         pagination.value.total = result.total;
@@ -196,6 +200,21 @@ export default defineComponent({
       }
     );
 
+    // 刷新 BScroll
+    const refreshBScroll = () => {
+      nextTick(() => {
+        scrollInstance.value.refresh();
+      });
+    };
+
+    onMounted(() => {
+      emitter.on('addSongRefreshScrollContainer', refreshBScroll);
+    });
+
+    onUnmounted(() => {
+      emitter.off('addSongRefreshScrollContainer', refreshBScroll);
+    });
+
     const { scrollInstance, pullingUpLoading } = usePullUpLoad(scrollContainerRef, {
       onPullingUp: handleLoadMoreData,
       otherBScrollOption: {
@@ -222,5 +241,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import './SearchSuggest';
+@import './AddSongSearchSuggest';
 </style>

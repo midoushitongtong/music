@@ -22,7 +22,7 @@
     </div>
     <!-- song list -->
     <div
-      class="scroll-container"
+      class="album-detail-scroll-container"
       ref="scrollContainerRef"
       :style="scrollContainerStyle"
       v-noResult="{

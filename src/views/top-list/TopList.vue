@@ -3,7 +3,7 @@
   <Tab />
 
   <div
-    class="scroll-container"
+    class="top-list-scroll-container"
     ref="scrollContainerRef"
     v-loading="{
       loading: initDataLoading,

@@ -1,15 +1,5 @@
 export const save = (key: any, value: any, compare: (item: any) => boolean, maxLength?: number) => {
-  // @ts-ignore
-  let arrayValue: any[] = [];
-
-  const stringValue = localStorage.getItem(key);
-  if (stringValue) {
-    try {
-      arrayValue = JSON.parse(stringValue);
-    } catch (error) {
-      console.log('解析 json 失败');
-    }
-  }
+  const arrayValue: any[] = get(key);
 
   const index = arrayValue.findIndex(compare);
 
@@ -28,18 +18,36 @@ export const save = (key: any, value: any, compare: (item: any) => boolean, maxL
   return arrayValue;
 };
 
-export const remove = (key: any, compare: (item: any) => boolean) => {
-  // @ts-ignore
-  let arrayValue: any[] = [];
+export const saveUnshift = (
+  key: any,
+  value: any,
+  compare: (item: any) => boolean,
+  maxLength?: number
+) => {
+  const arrayValue: any[] = get(key);
 
-  const stringValue = localStorage.getItem(key);
-  if (stringValue) {
-    try {
-      arrayValue = JSON.parse(stringValue);
-    } catch (error) {
-      console.log('解析 json 失败');
-    }
+  const index = arrayValue.findIndex(compare);
+
+  // 如果已经存在, 先移除
+  if (index !== -1) {
+    arrayValue.splice(index, 1);
   }
+
+  // 放到数组最前端
+  arrayValue.unshift(value);
+
+  // 超出最大长度, 移除最后面的元素
+  if (maxLength && arrayValue.length > maxLength) {
+    arrayValue.pop();
+  }
+
+  localStorage.setItem(key, JSON.stringify(arrayValue));
+
+  return arrayValue;
+};
+
+export const remove = (key: any, compare: (item: any) => boolean) => {
+  const arrayValue: any[] = get(key);
 
   const index = arrayValue.findIndex(compare);
 

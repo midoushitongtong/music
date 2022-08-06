@@ -21,7 +21,11 @@ export const getHotKeywordList = () => {
 };
 
 // 搜索
-export const getSearchKeywordList = (params: { pageNum: number; pageSize: number }) => {
+export const getSearchKeywordList = (params: {
+  pageNum: number;
+  pageSize: number;
+  hideSinger?: boolean;
+}) => {
   return new Promise<{
     result: SearchKeywordListItem[];
     total: number;
@@ -192,9 +196,23 @@ export const getSearchKeywordList = (params: { pageNum: number; pageSize: number
           songName: '珊瑚海',
           songListItem: singerDetail.result.songList.find((item) => item.id === '23'),
         },
+        {
+          type: 'song',
+          id: '24',
+          singerName: '周杰伦',
+          songName: '开不了口',
+          songListItem: singerDetail.result.songList.find((item) => item.id === '24'),
+        },
+        {
+          type: 'song',
+          id: '25',
+          singerName: '周杰伦',
+          songName: '黑色幽默',
+          songListItem: singerDetail.result.songList.find((item) => item.id === '25'),
+        },
       ];
 
-      if (params.pageNum === 1) {
+      if (!params.hideSinger && params.pageNum === 1) {
         data = [{ type: 'singer', id: '1', singerName: '周杰伦', singerId: '1' }, ...data];
       }
 

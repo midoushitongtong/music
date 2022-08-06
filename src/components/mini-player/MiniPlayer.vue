@@ -38,10 +38,11 @@
 <script lang="ts">
 import useSlider from '@/hooks/useSlider';
 import { useMusicStore } from '@/store/music';
-import { computed, defineComponent, nextTick, provide, ref, watch } from 'vue';
+import { computed, defineComponent, nextTick, onMounted, provide, ref, watch } from 'vue';
 import MiniPlayerCompactDisk from './MiniPlayerCompactDisk.vue';
 import MiniPlayerProgress from './MiniPlayerProgress.vue';
 import PlayList from '@/components/play-list/PlayList.vue';
+import { getSingerDetail } from '@/apis/singer';
 
 export default defineComponent({
   name: 'MiniPlayer',
@@ -87,6 +88,19 @@ export default defineComponent({
 
     // provider
     provide('audioSelector', audioSelector);
+
+    onMounted(() => {
+      // debug 代码
+      setTimeout(async () => {
+        const result = await getSingerDetail({ id: '1' });
+        musicStore.selectPlay({
+          songList: result.result.songList,
+          currentPlayIndex: 1,
+        });
+        musicStore.updateFullScreen(false);
+        playListRef.value?.showPlayList();
+      }, 500);
+    });
 
     // 监听 currentPageIndex 更新歌曲 index
     watch(currentPageIndex, (newValue) => {

@@ -14,7 +14,7 @@
             </h1>
           </div>
           <!-- content -->
-          <div ref="scrollContainerRef" class="scroll-container">
+          <div ref="scrollContainerRef" class="play-list-scroll-container">
             <div class="song-list" ref="songlistRef">
               <TransitionGroup name="song-list">
                 <div
@@ -52,6 +52,8 @@
   </Teleport>
 
   <ConfirmModal ref="confirmModalRef" />
+
+  <AddSong ref="addSongRef" />
 </template>
 
 <script lang="ts">
@@ -62,13 +64,16 @@ import { PLAY_MODE } from '@/store/music/types';
 import { computed, defineComponent, nextTick, ref, watch } from 'vue';
 import { remove, save } from '@/utils/array-storage';
 import ConfirmModal from '@/components/confirm-modal/ConfirmModal.vue';
+import AddSong from '@/components/add-song/AddSong.vue';
 
 export default defineComponent({
   name: 'PlayList',
   components: {
     ConfirmModal,
+    AddSong,
   },
   setup() {
+    const addSongRef = ref();
     const confirmModalRef = ref();
     const visible = ref();
     const songlistRef = ref();
@@ -194,6 +199,11 @@ export default defineComponent({
       });
     };
 
+    // show add song
+    const showAddSong = () => {
+      addSongRef.value?.show();
+    };
+
     // 监听切换歌曲, 更新 dom
     watch(currentSong, () => {
       if (!visible.value) {
@@ -213,6 +223,7 @@ export default defineComponent({
     });
 
     return {
+      addSongRef,
       playList,
       songlistRef,
       visible,
@@ -231,6 +242,7 @@ export default defineComponent({
       removing,
       confirmModalRef,
       clearPlayeList,
+      showAddSong,
     };
   },
 });

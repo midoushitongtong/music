@@ -1,5 +1,9 @@
 <template>
-  <div ref="scrollContainerRef" class="lyric-container scroll-container" v-if="currentSong">
+  <div
+    ref="scrollContainerRef"
+    class="lyric-container play-middle-lyric-scroll-container"
+    v-if="currentSong"
+  >
     <!-- 歌词列表 -->
     <div v-if="!currentLyricWitPureMusic" ref="lyricListRef" class="lyric-list">
       <p

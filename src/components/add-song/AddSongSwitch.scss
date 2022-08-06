@@ -1,0 +1,39 @@
+@import '@/assets/scss/variable';
+
+.switch-list {
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin: 0 auto;
+  border: 1px solid $color-highlight-background;
+  border-radius: 5px;
+  height: 32px;
+  margin-top: 1rem;
+
+  .switch-list-item {
+    z-index: 2; // 比 active-bar 大
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: $font-size-medium;
+    color: $color-text-d;
+    transition: color 0.3s;
+    &.active {
+      color: $color-text;
+    }
+  }
+
+  .active-bar {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 120px;
+    height: 100%;
+    transition: transform 0.3s;
+    border-radius: 5px;
+    background: $color-highlight-background;
+  }
+}

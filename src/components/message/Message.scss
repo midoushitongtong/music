@@ -1,0 +1,10 @@
+@import '@/assets/scss/variable';
+
+.message-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3000;
+  background-color: $color-dialog-background;
+}

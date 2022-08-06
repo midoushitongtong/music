@@ -1,15 +1,15 @@
 @import '@/assets/scss/variable';
 @import '@/assets/scss/mixin';
 
-.search-suggest-container {
+.search-suggest-scroll-container {
   position: fixed;
-  // 头部高度 + tab 高度 + search input 宽度
-  top: 45px + 45px + 32px;
+  // 头部高度 + tab 高度 + search input 宽度 + 间距
+  top: calc(45px + 45px + 32px + 1rem);
   left: 0;
   width: 100%;
   overflow: hidden;
   .suggest-list {
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem 1rem;
     .suggest-list-item {
       display: flex;
       align-items: center;

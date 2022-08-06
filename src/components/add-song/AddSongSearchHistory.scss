@@ -1,0 +1,40 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.add-song-search-history-container {
+  .add-song-search-hisyory-scroll-container {
+    position: fixed;
+    // 头部高度 + search input + switch 宽度 + 间距
+    top: calc(45px + 32px + 32px + 1rem + 1rem);
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    .scroll-content {
+      background: $color-background;
+      .search-history-list {
+        padding: 0 1rem 1rem;
+        .search-history-list-item {
+          height: calc(2.5rem + 0.65rem); // 和下方 .65rem 一致
+          overflow: hidden;
+          .search-history-list-item-inner {
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.65rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            font-size: $font-size-medium;
+            color: $color-text-d;
+            background: $color-highlight-background;
+            .text {
+              flex: 1;
+              color: $color-text-l;
+              padding-right: 0.65rem;
+              @include noWrap();
+            }
+          }
+        }
+      }
+    }
+  }
+}

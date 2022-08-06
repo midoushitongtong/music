@@ -2,7 +2,7 @@ import { SEARCH_HISTORY_STORAGE_KEY, useSearchStore } from '@/store/search';
 import { remove, save, clear } from '@/utils/array-storage';
 
 const useSearchHistory = () => {
-  const searchHistory = useSearchStore();
+  const searchStore = useSearchStore();
 
   // 保存单个搜索历史
   const saveSearchHistory = (keyword: string) => {
@@ -15,7 +15,7 @@ const useSearchHistory = () => {
     );
 
     // 保存到 store
-    searchHistory.updateSearchHistoryList(searchHistoryList);
+    searchStore.updateSearchHistoryList(searchHistoryList);
   };
 
   // 删除单个搜索历史
@@ -23,14 +23,15 @@ const useSearchHistory = () => {
     // 保存到 localStorage
     const searchHistoryList = remove(SEARCH_HISTORY_STORAGE_KEY, (item: any) => item === keyword);
     // 保存到 store
-    searchHistory.updateSearchHistoryList(searchHistoryList);
+    searchStore.updateSearchHistoryList(searchHistoryList);
   };
 
   // 删除全部搜索历史
   const removeAllSearchHistory = () => {
+    // 保存到 localStorage
     const searchHistoryList = clear(SEARCH_HISTORY_STORAGE_KEY);
     // 保存到 store
-    searchHistory.updateSearchHistoryList(searchHistoryList);
+    searchStore.updateSearchHistoryList(searchHistoryList);
   };
 
   return {

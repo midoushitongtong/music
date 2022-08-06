@@ -663,6 +663,32 @@ export const getSingerDetail = (params: { id: string }) => {
               duration: 28,
               lyric: '[00:00.00]此歌曲为没有填词的音乐，请您欣赏',
             },
+            {
+              id: '24',
+              title: '开不了口',
+              album: '一人一首成名曲第四辑(港台版)',
+              singer: {
+                name: '周杰伦',
+              },
+              backgroundImage: require('@/assets/images/audio/蒲公英的约定.jpg'),
+              cdImage: require('@/assets/images/audio/蒲公英的约定.jpg'),
+              url: require('@/assets/audio/蒲公英的约定-纯音乐.mp3'),
+              duration: 28,
+              lyric: '[00:00.00]此歌曲为没有填词的音乐，请您欣赏',
+            },
+            {
+              id: '25',
+              title: '黑色幽默',
+              album: 'Jay',
+              singer: {
+                name: '周杰伦',
+              },
+              backgroundImage: require('@/assets/images/audio/蒲公英的约定.jpg'),
+              cdImage: require('@/assets/images/audio/蒲公英的约定.jpg'),
+              url: require('@/assets/audio/蒲公英的约定-纯音乐.mp3'),
+              duration: 28,
+              lyric: '[00:00.00]此歌曲为没有填词的音乐，请您欣赏',
+            },
           ],
         },
       });

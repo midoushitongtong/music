@@ -46,6 +46,7 @@ import usePlayerCompactDiskAnimation from '@/hooks/usePlayerCompactDiskAnimation
 // @ts-ignore
 import Lyric from '@/utils/lyric-parser';
 import MiniPlayer from '../mini-player/MiniPlayer.vue';
+import usePlayHistory from '@/hooks/usePlayHistory';
 
 export default defineComponent({
   name: 'Player',
@@ -57,6 +58,7 @@ export default defineComponent({
   setup() {
     const audioSelector = '#player-audio';
     const playerListRef = ref();
+    const playHisyory = usePlayHistory();
     const audio = useAudio({
       audioSelector,
     });
@@ -120,15 +122,15 @@ export default defineComponent({
     provide('currentLyricWitPureMusic', currentLyricWitPureMusic);
 
     // 监听切换歌曲, 更新 dom
-    watch(currentSong, () => {
-      if (!currentSong.value) {
+    watch(currentSong, (newValue) => {
+      if (!newValue) {
         return;
       }
 
       // 更新歌曲地址
-      audio.updateAttr('src', currentSong.value.url);
+      audio.updateAttr('src', newValue.url);
       // 更新歌曲音量
-      audio.updateAttr('volume', 1);
+      audio.updateAttr('volume', 0.1);
       // 更新歌曲进度
       audio.updateAttr('currentTime', 0);
       // 开始播放
@@ -137,6 +139,9 @@ export default defineComponent({
       if (!playing.value) {
         musicStore.updatePlying(true);
       }
+
+      // 保存歌曲播放历史
+      playHisyory.savePlayHistory(newValue);
     });
 
     onMounted(() => {
