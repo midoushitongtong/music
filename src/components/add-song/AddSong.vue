@@ -15,10 +15,7 @@
 
         <div v-show="!query">
           <!-- switch -->
-          <AddSongSwitch
-            :items="['最近播放', '搜索历史']"
-            v-model:value="currentTabIndex"
-          ></AddSongSwitch>
+          <Switch :items="['最近播放', '搜索历史']" v-model:value="currentTabIndex"></Switch>
 
           <!-- play history -->
           <AddSongPlayHistory v-if="currentTabIndex === 0" />
@@ -35,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import AddSongSwitch from './AddSongSwitch.vue';
+import Switch from '@/components/switch/Switch.vue';
 import AddSongSearchInput from './AddSongSearchInput.vue';
 import AddSongSearchSuggest from './AddSongSearchSuggest.vue';
 import AddSongPlayHistory from './AddSongPlayHistory.vue';
@@ -45,7 +42,7 @@ import { emitter } from '@/utils/emitter';
 export default defineComponent({
   name: 'AddSong',
   components: {
-    AddSongSwitch,
+    Switch,
     AddSongSearchInput,
     AddSongSearchSuggest,
     AddSongPlayHistory,

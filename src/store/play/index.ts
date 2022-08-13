@@ -1,3 +1,4 @@
+import { SongListItem } from '@/apis/song/types';
 import { get } from '@/utils/array-storage';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
@@ -9,7 +10,7 @@ const usePlayStore = defineStore('play', () => {
   // state
   // ==================================================
   // 搜索历史
-  const playHistoryList = ref<string[]>(get(PLAY_HISTORY_STORAGE_KEY));
+  const playHistoryList = ref<SongListItem[]>(get(PLAY_HISTORY_STORAGE_KEY));
 
   // ==================================================
   // actions

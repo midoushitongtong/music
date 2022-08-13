@@ -2,7 +2,12 @@
   <!-- header -->
   <Header />
 
-  <RouterView />
+  <!-- router view -->
+  <RouterView v-slot="{ Component }">
+    <KeepAlive>
+      <Component :is="Component" />
+    </KeepAlive>
+  </RouterView>
 
   <Player />
 </template>

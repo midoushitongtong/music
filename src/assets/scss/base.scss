@@ -218,3 +218,13 @@ html {
 .search-history-list-leave-to {
   height: 0 !important;
 }
+
+.slide-router-enter-active,
+.slide-router-leave-active {
+  transition: all 0.3s;
+}
+
+.slide-router-enter-from,
+.slide-router-leave-to {
+  transform: translate3d(100%, 0, 0);
+}

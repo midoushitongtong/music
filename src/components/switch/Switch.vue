@@ -25,7 +25,7 @@
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'AddSongSwitch',
+  name: 'Switch',
   props: {
     items: {
       type: Array,
@@ -66,5 +66,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import './AddSongSwitch';
+@import './Switch';
 </style>

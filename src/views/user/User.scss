@@ -1,0 +1,63 @@
+@import '@/assets/scss/variable';
+@import '@/assets/scss/mixin';
+
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 900; // 要比 .header-container 大
+
+  .header {
+    position: relative;
+    display: flex;
+    height: 45px;
+    background: $color-background;
+    text-align: center;
+    color: $color-theme;
+    box-shadow: 0 1px 1px #7e8c8d;
+    background: #222;
+    z-index: 500;
+    .back {
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon-back {
+        display: block;
+        font-size: $font-size-large-x;
+        color: $color-theme;
+      }
+    }
+    .content {
+      position: absolute;
+      top: 0;
+      right: 45px;
+      bottom: 0;
+      left: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon {
+        display: inline-block;
+        vertical-align: top;
+        width: 30px;
+        height: 32px;
+        margin-right: 0.75rem;
+        background-size: 30px 32px;
+        @include backgrounImage('../../assets/images/logo-1.png');
+      }
+      .text {
+        display: inline-block;
+        vertical-align: top;
+        line-height: 45px;
+        font-size: $font-size-large;
+      }
+    }
+  }
+
+  .switch-list {
+    margin-top: 1rem;
+  }
+}

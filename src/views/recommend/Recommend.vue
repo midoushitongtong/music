@@ -1,32 +1,34 @@
 <template>
-  <!-- tab -->
-  <Tab />
+  <div>
+    <!-- tab -->
+    <Tab />
 
-  <div
-    class="recommend-scroll-container"
-    ref="scrollContainerRef"
-    v-loading="{
-      loading: initDataLoading,
-      title: '正在载入 ...',
-    }"
-    :style="offsetStyle"
-  >
-    <div class="scroll-content">
-      <template v-if="!initDataLoading && recommend">
-        <!-- banner -->
-        <RecommendBanner :recommend="recommend" />
-        <!-- list -->
-        <RecommendList :recommend="recommend" />
-      </template>
+    <div
+      class="recommend-scroll-container"
+      ref="scrollContainerRef"
+      v-loading="{
+        loading: initDataLoading,
+        title: '正在载入 ...',
+      }"
+      :style="offsetStyle"
+    >
+      <div class="scroll-content">
+        <template v-if="!initDataLoading && recommend">
+          <!-- banner -->
+          <RecommendBanner :recommend="recommend" />
+          <!-- list -->
+          <RecommendList :recommend="recommend" />
+        </template>
+      </div>
     </div>
-  </div>
 
-  <!-- router view -->
-  <RouterView v-slot="{ Component }">
-    <Transition name="recommend-detail">
-      <Component :is="Component" />
-    </Transition>
-  </RouterView>
+    <!-- router view -->
+    <RouterView v-slot="{ Component }">
+      <Transition name="recommend-detail">
+        <Component :is="Component" />
+      </Transition>
+    </RouterView>
+  </div>
 </template>
 
 <script lang="ts">

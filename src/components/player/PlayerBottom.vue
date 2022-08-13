@@ -17,7 +17,7 @@
         <i class="icon-next" @click="playNext" />
       </div>
       <div class="operator-list-item right">
-        <i :class="getFavoriteIcon(currentSong)" @click="toggleFavorite(currentSong.id)" />
+        <i :class="getFavoriteIcon(currentSong)" @click="toggleFavorite(currentSong)" />
       </div>
     </div>
   </div>
@@ -69,20 +69,28 @@ export default defineComponent({
 
     // get favorite icon
     const getFavoriteIcon = (songListItem: SongListItem) => {
-      return favoriteList.value.find((item) => item === songListItem.id)
+      return favoriteList.value.find((item) => item.id === songListItem.id)
         ? 'icon-favorite'
         : 'icon-not-favorite';
     };
 
     // toggle favorite
-    const toggleFavorite = (id: string) => {
+    const toggleFavorite = (songListItem: SongListItem) => {
       let newFavoriteList = favoriteList.value;
-      if (favoriteList.value.findIndex((item) => item === id) !== -1) {
+      if (favoriteList.value.findIndex((item) => item.id === songListItem.id) !== -1) {
         // remove
-        newFavoriteList = remove(PLAYER_FAVORITE_STORAGE_KEY, (item: any) => item === id);
+        newFavoriteList = remove(
+          PLAYER_FAVORITE_STORAGE_KEY,
+          (item: any) => item === songListItem.id
+        );
       } else {
         // save
-        newFavoriteList = save(PLAYER_FAVORITE_STORAGE_KEY, id, (item: any) => item === id, 100);
+        newFavoriteList = save(
+          PLAYER_FAVORITE_STORAGE_KEY,
+          songListItem.id,
+          (item: any) => item === songListItem.id,
+          100
+        );
       }
       musicStore.updateFavoriteList(newFavoriteList);
     };

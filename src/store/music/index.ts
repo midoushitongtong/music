@@ -1,6 +1,7 @@
 import { SongListItem } from '@/apis/song/types';
 import { shuffleArr } from '@/utils/array';
 import { get } from '@/utils/array-storage';
+import { cloneDeep } from 'lodash';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { PLAY_MODE } from './types';
@@ -24,7 +25,7 @@ const useMusicStore = defineStore('music', () => {
   // 全屏播放
   const fullScreen = ref(false);
   // 已收藏的歌曲列表
-  const favoriteList = ref<string[]>(get(PLAYER_FAVORITE_STORAGE_KEY));
+  const favoriteList = ref<SongListItem[]>(get(PLAYER_FAVORITE_STORAGE_KEY));
 
   // ==================================================
   // getters
@@ -62,7 +63,8 @@ const useMusicStore = defineStore('music', () => {
     songList: typeof songList.value;
     currentPlayIndex: typeof currentPlayIndex.value;
   }) => {
-    songList.value = props.songList;
+    songList.value = cloneDeep(props.songList); // 为了能强制刷新正在播放的歌曲
+
     playList.value = props.songList;
     currentPlayIndex.value = props.currentPlayIndex;
     // 顺序播放模式
@@ -70,6 +72,8 @@ const useMusicStore = defineStore('music', () => {
     fullScreen.value = true;
   };
   const randomSongList = (_songList: typeof songList.value) => {
+    _songList = cloneDeep(_songList); // 为了能强制刷新正在播放的歌曲
+
     songList.value = _songList;
     playList.value = shuffleArr(_songList);
     currentPlayIndex.value = 0;
@@ -133,8 +137,8 @@ const useMusicStore = defineStore('music', () => {
     playing.value = false;
   };
   const addSong = (songListItem: SongListItem) => {
-    const songListTemp = [...songList.value];
-    const playListTemp = [...playList.value];
+    const songListTemp = cloneDeep(songList.value); // 为了能强制刷新正在播放的歌曲
+    const playListTemp = cloneDeep(playList.value); // 为了能强制刷新正在播放的歌曲
     let currentPlayIndexTemp = currentPlayIndex.value;
 
     const playIndex = playListTemp.findIndex((item) => item.id === songListItem.id);

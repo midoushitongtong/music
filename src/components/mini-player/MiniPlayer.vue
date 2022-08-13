@@ -90,16 +90,16 @@ export default defineComponent({
     provide('audioSelector', audioSelector);
 
     onMounted(() => {
-      // debug 代码
-      setTimeout(async () => {
-        const result = await getSingerDetail({ id: '1' });
-        musicStore.selectPlay({
-          songList: result.result.songList,
-          currentPlayIndex: 1,
-        });
-        musicStore.updateFullScreen(false);
-        playListRef.value?.showPlayList();
-      }, 500);
+      // // debug 代码
+      // setTimeout(async () => {
+      //   const result = await getSingerDetail({ id: '1' });
+      //   musicStore.selectPlay({
+      //     songList: result.result.songList,
+      //     currentPlayIndex: 1,
+      //   });
+      //   musicStore.updateFullScreen(false);
+      //   playListRef.value?.showPlayList();
+      // }, 500);
     });
 
     // 监听 currentPageIndex 更新歌曲 index
